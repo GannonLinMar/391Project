@@ -73,7 +73,14 @@
 	
         	//display the result
 	        if(passwd.equals(truepwd))
-		        out.println("<p><b>Successfully logged in.</b></p>");
+            {
+		        out.println("<p><b>Successfully logged in. Redirecting to home page...</b></p>");
+
+                //TODO: OPEN UP A SESSION OR SOMETHING
+                session.setAttribute( "userid", userName);
+
+                out.println("<meta http-equiv=\"refresh\" content=\"2; url=index.jsp\" />");
+            }
         	else
 	        	out.println("<p><b>Either the username or password is incorrect.</b></p>");
 
@@ -86,7 +93,7 @@
         }
         else //no submission so redirect back to login page
         {
-                out.println("<meta http-equiv=\"refresh\" content=\"0; url=login.html\" />");
+                out.println("<meta http-equiv=\"refresh\" content=\"0; url=login.jsp\" />");
         }      
 %>
 
