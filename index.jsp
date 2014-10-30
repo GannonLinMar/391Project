@@ -11,8 +11,10 @@ if(userid == null)
 </HEAD>
 <BODY>
 
-Hi! You appear to be logged in as <%= userid%>.
-<br><br>
+Hi, <%= userid%><span style="float:right;"><a href="logout.jsp">Logout</a></span>
+<hr>
+
+<br>
 <a href="upload.jsp">Upload One Image</a>
 <br>
 <a href="groups.jsp">Manage Your Groups</a>

@@ -9,6 +9,10 @@ if(userid == null)
 <HEAD>
 <BODY>
 
+Hi, <%= userid%><span style="float:right;"><a href="logout.jsp">Logout</a></span>
+<hr>
+<br>
+
 <%@ page import="java.sql.*" %>
 <%@ page import="java.util.*" %>
 
@@ -61,7 +65,7 @@ if(userid == null)
 	while(rset != null && rset.next())
     	groupNames.add((rset.getString(1)).trim());
 
-    out.println("<button type=\"button\" name=\"newgroup\">Create New Group</button><br>");
+    out.println("<button type=\"button\" id=\"creategroup\" name=\"newgroup\">Create New Group</button><br>");
 
     if(groupNames.size() < 1)
     {
@@ -73,10 +77,22 @@ if(userid == null)
     for(String groupName : groupNames)
     {
         out.println(groupName);
-        out.println("<button type=\"button\" name=\"MYNAME\">View/Edit</button>");
+        //out.println("<button type=\"button\" name=\"MYNAME\">View/Edit</button>");
+        out.println("<button onclick=\"location.href='editgroup.jsp?name="
+            + groupName + "'\">View/Edit</button>");
         out.println("<br>");
     }
 %>
+
+<script>document.getElementById("creategroup").onclick = function()
+{
+    var newname = prompt("New group name:", "");
+    if(newname != null && newname != "") //not cancelled or blank
+    {
+        window.location.href = "doCreategroup.jsp?newname=" + newname;
+    }
+}
+</script>
 
 </BODY>
 </HTML>
