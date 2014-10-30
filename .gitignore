@@ -1,3 +1,6 @@
+#temp files
+*~
+
 # Oracle login credentials
 db_login/db_login.jsp
 
