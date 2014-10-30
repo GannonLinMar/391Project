@@ -77,9 +77,7 @@ Hi, <%= userid%><span style="float:right;"><a href="logout.jsp">Logout</a></span
     for(String groupName : groupNames)
     {
         out.println(groupName);
-        //out.println("<button type=\"button\" name=\"MYNAME\">View/Edit</button>");
-        out.println("<button onclick=\"location.href='editgroup.jsp?name="
-            + groupName + "'\">View/Edit</button>");
+        out.println("<button onclick=\"EditGroup('" + groupName + "')\">View/Edit</button>");
         out.println("<br>");
     }
 %>
@@ -110,7 +108,8 @@ function post(path, params) {
 }
 </script>
 
-<script>document.getElementById("creategroup").onclick = function()
+<script>
+document.getElementById("creategroup").onclick = function()
 {
     var newname = prompt("New group name:", "");
     if(newname != null && newname != "") //not cancelled or blank
@@ -118,6 +117,13 @@ function post(path, params) {
         //window.location.href = "doCreategroup.jsp?newname=" + newname;
         post("doCreategroup.jsp", {newname: newname});
     }
+}
+</script>
+
+<script>
+function EditGroup(groupname)
+{
+    post("editgroup.jsp", {groupname: groupname});
 }
 </script>
 
