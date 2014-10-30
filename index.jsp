@@ -14,6 +14,8 @@ if(userid == null)
 Hi! You appear to be logged in as <%= userid%>.
 <br><br>
 <a href="upload.jsp">Upload One Image</a>
+<br>
+<a href="groups.jsp">Manage Your Groups</a>
 
 </BODY>
 </HTML>
