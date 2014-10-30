@@ -84,12 +84,39 @@ Hi, <%= userid%><span style="float:right;"><a href="logout.jsp">Logout</a></span
     }
 %>
 
+<script>
+//http://stackoverflow.com/questions/133925/javascript-post-request-like-a-form-submit
+function post(path, params) {
+    var method = "post";
+    var form = document.createElement("form");
+    form.setAttribute("method", method);
+    form.setAttribute("action", path);
+
+    for(var key in params)
+    {
+        if(params.hasOwnProperty(key))
+        {
+            var hiddenField = document.createElement("input");
+            hiddenField.setAttribute("type", "hidden");
+            hiddenField.setAttribute("name", key);
+            hiddenField.setAttribute("value", params[key]);
+
+            form.appendChild(hiddenField);
+         }
+    }
+
+    document.body.appendChild(form);
+    form.submit();
+}
+</script>
+
 <script>document.getElementById("creategroup").onclick = function()
 {
     var newname = prompt("New group name:", "");
     if(newname != null && newname != "") //not cancelled or blank
     {
-        window.location.href = "doCreategroup.jsp?newname=" + newname;
+        //window.location.href = "doCreategroup.jsp?newname=" + newname;
+        post("doCreategroup.jsp", {newname: newname});
     }
 }
 </script>
