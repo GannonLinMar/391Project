@@ -53,19 +53,11 @@ if(request.getParameter("groupname") != null)
         out.println("<hr>" + ex.getMessage() + "<hr>");
 	}
 
-    int groupId = 0;
-
-    ////////////////////
-
-    // get the group id
-    out.println("Get group id - not yet implemented!<br>");
-
-    ////////////////////
-
     //select the user table from the underlying db and validate the user name and password
 	Statement stmt = null;
     ResultSet rset = null;
-	String sql = "select friend_id from group_lists where group_id = '" + groupId +"'";
+    String sqlsub = "(select group_id from groups where group_name = '" + groupName + "' and user_name = '" + userid + "')";    
+	String sql = "select friend_id from group_lists where group_id in " + sqlsub;
     out.println("Your query:<br>" + sql + ";<br><br>");
 	try{
     	stmt = conn.createStatement();
