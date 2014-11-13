@@ -53,7 +53,7 @@
 
 	try{
 		statement = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
-        ResultSet.CONCUR_UPDATABLE);
+        ResultSet.CONCUR_READ_ONLY);
 		resultset = statement.executeQuery(sql);
 	}
 
@@ -71,9 +71,23 @@
 		response.sendRedirect(redirect);	
 	
 	}
-
-
+	
 	//if there is zero of the given username, insert it, commit and goto success
+	if (count == 0) {
+		try{
+			statement = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+        	ResultSet.CONCUR_UPDATABLE);
+		String updateString = "insert into registration values ('"+username+"', '"+password+"', '"+firstName+"', '"+lastName+"', '"+address+"', '"+phoneNumber+"')";
+		statement.executeUpdate(updateString);
+		}
+
+		catch(Exception ex) {
+			out.println("<hr>" + ex.getMessage() + "<hr>");
+		}
+	}
+
+
+	
 
 	//close the connection
 	try{
@@ -85,7 +99,8 @@
 	}
 
 
-	
+	String redirect = "registration_success.html";
+	response.sendRedirect(redirect);
 
 %>
 
