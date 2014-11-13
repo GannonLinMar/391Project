@@ -3,9 +3,20 @@
 <TITLE>New User Registration</TITLE>
 </HEAD>
 
+<script>
+function validateForm() {
+	var x = document.forms["registration"]["firstname", "lastname", "address", "phoneNumber", "username", "password"].value;
+	if (x==null || x=="") {
+		alert("One or more fields are empty!");
+		return false;
+	}
+
+}
+</script>
+</HEAD>
 <BODY>
 	<H1><CENTER>Welcome new user!</CENTER></H1>
-	<form name = "registration" action="new_user_registration.jsp" method="post">
+	<form name = "registration" action="new_user_registration.jsp" onsubmit="return validateForm()" method="post">
 		<P>Please create a new account to login to our system</P>
 		First name: <input type="text" name="firstname"> <br>
 		Last name: <input type="text" name = "lastname"> <br>
