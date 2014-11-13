@@ -56,7 +56,6 @@ if(request.getParameter("groupName") != null && request.getParameter("deletedMem
 
     if(conn != null)
     {
-        //select the user table from the underlying db and validate the user name and password
     	Statement stmt = null;
         ResultSet rset = null;
         String sqlsub = "(select group_id from groups where group_name = '" + groupName + "' and user_name = '" + userid + "')";    
@@ -85,9 +84,44 @@ if(request.getParameter("groupName") != null && request.getParameter("deletedMem
 
         conn.commit();
         conn.close();
+
+        out.println("<br><button onclick=\"Back()\">Back</button>");
     }
 }
 %>
+
+<script>
+//http://stackoverflow.com/questions/133925/javascript-post-request-like-a-form-submit
+function post(path, params) {
+    var method = "post";
+    var form = document.createElement("form");
+    form.setAttribute("method", method);
+    form.setAttribute("action", path);
+
+    for(var key in params)
+    {
+        if(params.hasOwnProperty(key))
+        {
+            var hiddenField = document.createElement("input");
+            hiddenField.setAttribute("type", "hidden");
+            hiddenField.setAttribute("name", key);
+            hiddenField.setAttribute("value", params[key]);
+
+            form.appendChild(hiddenField);
+         }
+    }
+
+    document.body.appendChild(form);
+    form.submit();
+}
+</script>
+
+<script>
+function Back(memberName)
+{
+    post("editgroup.jsp", {groupname: <%= "\"" + groupName + "\"" %>});
+}
+</script>
 
 </BODY>
 </HTML>
