@@ -89,14 +89,15 @@ Hi, <%= userid%><span style="float:right;"><a href="logout.jsp">Logout</a></span
                 out.println("<hr>" + ex.getMessage() + "<hr>");
                 success = false;
                 out.println("<br><a href=\"groups.jsp\">Back to groups</a>");
-                conn.commit();
         	}
             if(success)
             {
                 out.println("Succesfully added group!<br>");
                 out.println("<a href=\"groups.jsp\">Back to groups</a>");
-                conn.commit();
             }
+
+            conn.commit();
+            conn.close();            
         }
     }
     else //no submission so redirect back

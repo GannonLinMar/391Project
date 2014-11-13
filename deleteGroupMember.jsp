@@ -84,6 +84,7 @@ if(request.getParameter("groupName") != null && request.getParameter("deletedMem
         }
 
         conn.commit();
+        conn.close();
     }
 }
 %>

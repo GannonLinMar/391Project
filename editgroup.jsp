@@ -93,6 +93,7 @@ if(request.getParameter("groupname") != null)
         }
 
         conn.commit();
+        conn.close();
     }
 }
 %>
