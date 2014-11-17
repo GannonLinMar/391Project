@@ -19,13 +19,20 @@ Hi, <%= userid%><span style="float:right;"><a href="logout.jsp">Logout</a></span
 <%@include file="db_login/db_login.jsp" %>
 
 <%
-String groupName = "";
+String viewTypeString = "";
+int viewType = 0;
 
-out.println("<a href=\"groups.jsp\">Back to Groups</a><br><br>");
+out.println("<a href=\"viewImages.jsp\">Back to View Images</a><br><br>");
 
-if(request.getParameter("groupname") != null)
+if(request.getParameter("submitViewImages") != null)
 {
-    groupName = (request.getParameter("groupname")).trim();
+    viewTypeString = (request.getParameter("imageType")).trim();
+    if(viewTypeString.equals("owned"))
+    	viewType = 1;
+    else if(viewTypeString.equals("popular"))
+    	viewType = 2;
+    else if(viewTypeString.equals("search"))
+    	viewType = 3;
 
     //establish the connection to the underlying database
 	Connection conn = null;
@@ -56,6 +63,16 @@ if(request.getParameter("groupname") != null)
 
     if(conn != null)
     {
+    	switch(viewType)
+    	{
+    		case 1:
+    			out.println("WIP");
+    			break;
+    		default:
+    			out.println("Not yet implemented");
+    	}
+    	/*
+
     	Statement stmt = null;
         ResultSet rset = null;
         String sqlsub = "(select group_id from groups where group_name = '" + groupName + "' and user_name = '" + userid + "')";    
@@ -91,10 +108,14 @@ if(request.getParameter("groupname") != null)
             out.println("<br>");
         }
 
+		*/
+
         conn.commit();
         conn.close();
     }
 }
+else
+	out.println("Something went wrong");
 %>
 
 <script>
@@ -120,24 +141,6 @@ function post(path, params) {
 
     document.body.appendChild(form);
     form.submit();
-}
-</script>
-
-<script>
-document.getElementById("newmember").onclick = function()
-{
-    var newName = prompt("New member's userid:", "");
-    if(newName != null && newName != "") //not cancelled or blank
-    {;
-        post("addGroupMember.jsp", {groupName: <%= "\"" + groupName + "\"" %>, newName: newName});
-    }
-}
-</script>
-
-<script>
-function DeleteMember(memberName)
-{
-    post("deleteGroupMember.jsp", {groupName: <%= "\"" + groupName + "\"" %>, deletedMember: memberName});
 }
 </script>
 
