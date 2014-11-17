@@ -19,6 +19,8 @@ Hi, <%= userid%><span style="float:right;"><a href="logout.jsp">Logout</a></span
 <%@include file="db_login/db_login.jsp" %>
 
 <%
+    out.println("<a href=\".\">Back to Home</a><br><br>");
+
     //establish the connection to the underlying database
 	Connection conn = null;
 

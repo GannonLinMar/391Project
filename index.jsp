@@ -18,6 +18,8 @@ Hi, <%= userid%><span style="float:right;"><a href="logout.jsp">Logout</a></span
 <a href="upload.jsp">Upload One Image</a>
 <br>
 <a href="groups.jsp">Manage Your Groups</a>
+<br>
+<a href="viewImages.jsp">View Images</a>
 
 </BODY>
 </HTML>

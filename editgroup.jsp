@@ -21,10 +21,10 @@ Hi, <%= userid%><span style="float:right;"><a href="logout.jsp">Logout</a></span
 <%
 String groupName = "";
 
+out.println("<a href=\"groups.jsp\">Back to Groups</a><br><br>");
+
 if(request.getParameter("groupname") != null)
 {
-    out.println("<a href=\"groups.jsp\">Back to Groups</a><br><br>");
-
     groupName = (request.getParameter("groupname")).trim();
 
     //establish the connection to the underlying database
