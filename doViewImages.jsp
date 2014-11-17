@@ -71,6 +71,11 @@ if(request.getParameter("submitViewImages") != null)
     		default:
     			out.println("Not yet implemented");
     	}
+
+    	//want to print a list of thumbnails, clicking them should take us to their display page via POST
+    	//factoring considerations: make an arraylist of thumbnail data and corresponding ID's
+    	//then a single section of code to output them generically
+
     	/*
 
     	Statement stmt = null;
