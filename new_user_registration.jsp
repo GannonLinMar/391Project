@@ -4,15 +4,8 @@
 </HEAD>
 <BODY>
 <%@ page import ="java.sql.*, java.util.*, java.lang.Object, java.text.SimpleDateFormat" %>
+<%@include file="db_login/db_login.jsp" %>
 <%
-
-
-
-	//set the username and password for the underlying sqlplus user HERE
-	String m_username = "emar";
-	String m_password = "Rogue_81";
-	
-
 
 	//get everything from form first
 	String firstName = (request.getParameter("firstname")).trim();
@@ -26,7 +19,6 @@
 	Connection conn = null;
 
 	String drivername = "oracle.jdbc.driver.OracleDriver";
-	String dbstring = "jdbc:oracle:thin:@gwynne.cs.ualberta.ca:1521:CRS";
 
 	try{
 		Class drvClass = Class.forName(drivername);
@@ -38,7 +30,7 @@
 	}
 
 	try{
-		conn = DriverManager.getConnection(dbstring, m_username, m_password);
+		conn = DriverManager.getConnection(dbstring, db_username, db_password);
 		conn.setAutoCommit(false);
 	}
 
@@ -64,13 +56,12 @@
 	//find the count
 	resultset.next();
 	int count = resultset.getInt(1);
-	System.out.print(count);
+
 	
 
 	
 	//if there is zero of the given username, insert it, commit and goto success
 	if (count == 0) {
-		System.out.print("Hi");
 		try{
 			statement = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
 			//date: DD-MON-YY
@@ -95,12 +86,12 @@
 			out.println("<hr>" + ex.getMessage() + "<hr>");
 		}
 
-
+		session.setAttribute( "userid", username);
 		String redirect = "registration_success.html";
 		response.sendRedirect(redirect);
 
 	}
-
+	
 	//if there's one of the same username, reject and goto fail html
 	else{
 		String redirect = "registration_failed.html";
