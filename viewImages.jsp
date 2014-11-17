@@ -17,8 +17,8 @@ Hi, <%= userid%><span style="float:right;"><a href="logout.jsp">Logout</a></span
 <input type="radio" name="imageType" value="owned" checked="checked">View My Images<br>
 <input type="radio" name="imageType" value="popular">View Popular Images<br>
 <div style="border: thin dotted gray; width: 450">
-<input type="radio" name="imageType" value="popular">Search Images<br>
-Keywords: <INPUT type = "text" name = "keywords" maxlength=200><br>
+<input type="radio" name="imageType" value="search">Search Images<br>
+Keywords: <INPUT type = "text" name = "keywords" maxlength=200> (seperate with spaces)<br>
 Time: TODO - specify time somehow <br>
 Rank by: <input type="radio" name="rankBy" value="default" checked="checked">Default
 <input type="radio" name="rankBy" value="recentFirst">Most to least recent
