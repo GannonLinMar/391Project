@@ -88,10 +88,36 @@ Hi, <%= userid%><span style="float:right;"><a href="logout.jsp">Logout</a></span
 		    //we don't have a sequence and I have no idea how to make one
 			    //ResultSet rset1 = stmt.executeQuery("SELECT pic_id_sequence.nextval from dual");
 			    //rset1.next();
-		    int pic_id = 1;
-		    //TODO: 
-		    out.println("WARNING: Getting next pic_id not yet implemented<br>");
+		    int pic_id = 0;
 
+		    //////////////
+		    //////////////
+
+		    String prequery = "select max(photo_id) from images";
+	        Boolean presuccess = true;
+	        ResultSet rset2;
+	        Statement stmt2 = conn.createStatement();
+	        try
+	        {
+	            stmt2 = conn.createStatement();
+	            rset2 = stmt2.executeQuery(prequery);
+
+	            while(rset2 != null && rset2.next())
+	                pic_id = rset2.getInt(1) + 1;
+	        }
+	        catch(Exception ex)
+	        {
+	            response_message = "<hr>" + "Error retrieving next image id: " + ex.getMessage() + "<hr>";
+	            presuccess = false;
+	            conn.commit();
+	            conn.close();
+	        }
+
+		    //////////////
+		    //////////////
+
+		    if(presuccess)
+		    {
 		    //Insert an empty blob into the table first. Note that you have to 
 		    //use the Oracle specific function empty_blob() to create an empty blob
 		    String values = Integer.toString(pic_id) + ", '" + userid + "', " + "1" + ", "
@@ -128,6 +154,7 @@ Hi, <%= userid%><span style="float:right;"><a href="logout.jsp">Logout</a></span
 		    stmt.executeUpdate("commit");
 		    conn.commit();
 	        conn.close();
+	    	}
     	}
     	catch( Exception ex )
 		{
