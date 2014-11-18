@@ -19,13 +19,13 @@ Hi, <%= userid%><span style="float:right;"><a href="logout.jsp">Logout</a></span
 <%@include file="db_login/db_login.jsp" %>
 
 <%
-String groupName = "";
+String groupName = null;
+String deletedMember = null;
 
-out.println("<a href=\"groups.jsp\">Back to Groups</a><br><br>");
-
-if(request.getParameter("groupname") != null)
+if(request.getParameter("groupName") != null && request.getParameter("deletedMember") != null)
 {
-    groupName = (request.getParameter("groupname")).trim();
+    groupName = request.getParameter("groupName").trim();
+    deletedMember = request.getParameter("deletedMember").trim();
 
     //establish the connection to the underlying database
 	Connection conn = null;
@@ -59,8 +59,10 @@ if(request.getParameter("groupname") != null)
     	Statement stmt = null;
         ResultSet rset = null;
         String sqlsub = "(select group_id from groups where group_name = '" + groupName + "' and user_name = '" + userid + "')";    
-    	String sql = "select friend_id from group_lists where group_id in " + sqlsub;
+        String sql2 = " and friend_id = '" + deletedMember + "'";
+    	String sql = "delete from group_lists where group_id in " + sqlsub + sql2;
         out.println("Your query:<br>" + sql + ";<br><br>");
+        Boolean bSuccess = true;
     	try{
         	stmt = conn.createStatement();
             rset = stmt.executeQuery(sql);
@@ -68,31 +70,22 @@ if(request.getParameter("groupname") != null)
 
         catch(Exception ex){
             out.println("<hr>" + ex.getMessage() + "<hr>");
+            bSuccess = false;
     	}
 
-        ArrayList<String> memberNames = new ArrayList<String>();
-
-    	while(rset != null && rset.next())
-        	memberNames.add((rset.getString(1)).trim());
-
-        out.println("<br><button type=\"button\" id=\"newmember\">Add a new member</button><br>");
-
-        if(memberNames.size() < 1)
+        if(bSuccess)
         {
-            out.println("Currently no members");
+            out.println("Successfully deleted group member");
         }
         else
-            out.println("Group members:<br>");
-
-        for(String name : memberNames)
         {
-            out.println(name);
-            out.println("<button onclick=\"DeleteMember('" + name + "')\">Delete</button>");
-            out.println("<br>");
+            out.println("Failed to delete group member");
         }
 
         conn.commit();
         conn.close();
+
+        out.println("<br><button onclick=\"Back()\">Back</button>");
     }
 }
 %>
@@ -124,20 +117,9 @@ function post(path, params) {
 </script>
 
 <script>
-document.getElementById("newmember").onclick = function()
+function Back(memberName)
 {
-    var newName = prompt("New member's userid:", "");
-    if(newName != null && newName != "") //not cancelled or blank
-    {;
-        post("addGroupMember.jsp", {groupName: <%= "\"" + groupName + "\"" %>, newName: newName});
-    }
-}
-</script>
-
-<script>
-function DeleteMember(memberName)
-{
-    post("deleteGroupMember.jsp", {groupName: <%= "\"" + groupName + "\"" %>, deletedMember: memberName});
+    post("editgroup.jsp", {groupname: <%= "\"" + groupName + "\"" %>});
 }
 </script>
 

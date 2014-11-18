@@ -19,6 +19,8 @@ Hi, <%= userid%><span style="float:right;"><a href="logout.jsp">Logout</a></span
 <%@include file="db_login/db_login.jsp" %>
 
 <%
+    out.println("<a href=\".\">Back to Home</a><br><br>");
+
     //establish the connection to the underlying database
 	Connection conn = null;
 
@@ -46,39 +48,45 @@ Hi, <%= userid%><span style="float:right;"><a href="logout.jsp">Logout</a></span
         out.println("<hr>" + ex.getMessage() + "<hr>");
 	}
 
-    //select the user table from the underlying db and validate the user name and password
-	Statement stmt = null;
-    ResultSet rset = null;
-	String sql = "select group_name from groups where user_name = '" +userid +"'";
-    out.println("Your query:<br>" + sql + ";<br><br>");
-	try{
-    	stmt = conn.createStatement();
-        rset = stmt.executeQuery(sql);
-	}
-
-    catch(Exception ex){
-        out.println("<hr>" + ex.getMessage() + "<hr>");
-	}
-
-    ArrayList<String> groupNames = new ArrayList<String>();
-
-	while(rset != null && rset.next())
-    	groupNames.add((rset.getString(1)).trim());
-
-    out.println("<button type=\"button\" id=\"creategroup\" name=\"newgroup\">Create New Group</button><br>");
-
-    if(groupNames.size() < 1)
+    if(conn != null)
     {
-        out.println("You don't have any groups");
-    }
-    else
-        out.println("Your groups:<br>");
+        //select the user table from the underlying db and validate the user name and password
+    	Statement stmt = null;
+        ResultSet rset = null;
+    	String sql = "select group_name from groups where user_name = '" +userid +"'";
+        out.println("Your query:<br>" + sql + ";<br><br>");
+    	try{
+        	stmt = conn.createStatement();
+            rset = stmt.executeQuery(sql);
+    	}
 
-    for(String groupName : groupNames)
-    {
-        out.println(groupName);
-        out.println("<button onclick=\"EditGroup('" + groupName + "')\">View/Edit</button>");
-        out.println("<br>");
+        catch(Exception ex){
+            out.println("<hr>" + ex.getMessage() + "<hr>");
+    	}
+
+        ArrayList<String> groupNames = new ArrayList<String>();
+
+    	while(rset != null && rset.next())
+        	groupNames.add((rset.getString(1)).trim());
+
+        out.println("<button type=\"button\" id=\"creategroup\" name=\"newgroup\">Create New Group</button><br>");
+
+        if(groupNames.size() < 1)
+        {
+            out.println("You don't have any groups");
+        }
+        else
+            out.println("Your groups:<br>");
+
+        for(String groupName : groupNames)
+        {
+            out.println(groupName);
+            out.println("<button onclick=\"EditGroup('" + groupName + "')\">View/Edit</button>");
+            out.println("<br>");
+        }
+
+        conn.commit();
+        conn.close();
     }
 %>
 
