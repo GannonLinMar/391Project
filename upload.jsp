@@ -9,7 +9,7 @@ if(userid == null)
 <HEAD>
 <BODY>
 
-<FORM name = "UploadForm" action = "uploadOne.jsp" method = "post">
+<FORM name = "UploadForm" action = "uploadOne.jsp" method = "post" enctype="multipart/form-data">
 Image: <INPUT type = "file" name = "file"><br>
 Subject: <INPUT type = "text" name = "subject" maxlength=50><br>
 Location: <INPUT type = "text" name = "place" maxlength=50><br>
