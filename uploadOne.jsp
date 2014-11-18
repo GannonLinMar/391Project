@@ -3,11 +3,15 @@
 <TITLE>Upload Result</TITLE>
 </HEAD>
 <BODY>
-<!--A simple example to demonstrate how to use JSP to 
-    connect and query a database. 
-    @author  Hong-Yu Zhang, University of Alberta
- -->
-<%@ page import="java.sql.*" %>
+<%@ page import="java.sql.*" 
+@ page import java.io.*;
+@ page import javax.servlet.*;
+@ page import javax.servlet.http.*;
+@ page import java.util.*;
+@ page import oracle.sql.*;
+@ page import oracle.jdbc.*;
+@ page import org.apache.commons.fileupload.DiskFileUpload;
+@ page import org.apache.commons.fileupload.FileItem;%>
 
 <%@include file="db_login/db_login.jsp" %>
 
@@ -53,56 +57,74 @@
 
             out.println("Not yet implemented.");
 
+	    //Parse the HTTP request to get the image stream
+	    DiskFileUpload fu = new DiskFileUpload();
+	    List FileItems = fu.parseRequest(request);
+	    
+	    // Process the uploaded items, assuming only 1 image file uploaded
+	    Iterator i = FileItems.iterator();
+	    FileItem item = (FileItem) i.next();
+	    while (i.hasNext() && item.isFormField()) {
+		    item = (FileItem) i.next();
+	    }
 
-            // CONTINUE HERE ********************************
+	    //Get the image stream
+	    InputStream instream = item.getInputStream();
+	    
+ 
+	    Statement stmt = conn.createStatement();
+
+	    /*
+	     *  First, to generate a unique pic_id using an SQL sequence
+	     */
+	    ResultSet rset1 = stmt.executeQuery("SELECT pic_id_sequence.nextval from dual");
+	    rset1.next();
+	    pic_id = rset1.getInt(1);
+
+	    //Insert an empty blob into the table first. Note that you have to 
+	    //use the Oracle specific function empty_blob() to create an empty blob
+	    stmt.execute("INSERT INTO images VALUES("+pic_id+",userName,"private",subject,place,timing,description, empty_blob(),empty_blob())");
+ 
+	    // to retrieve the lob_locator 
+	    // Note that you must use "FOR UPDATE" in the select statement
+	    String cmd = "SELECT * FROM pictures WHERE pic_id = "+pic_id+" FOR UPDATE";
+	    ResultSet rset = stmt.executeQuery(cmd);
+	    rset.next();
+	    BLOB myblob = ((OracleResultSet)rset).getBLOB(3);
 
 
-	
-            /*
-	        //select the user table from the underlying db and validate the user name and password
-        	Statement stmt = null;
-	        ResultSet rset = null;
-        	String sql = "select password from users where user_name = '"+userName+"'";
-	        out.println("Your login query:<br>" + sql);
-        	try{
-	        	stmt = conn.createStatement();
-		        rset = stmt.executeQuery(sql);
-        	}
-	
-	        catch(Exception ex){
-		        out.println("<hr>" + ex.getMessage() + "<hr>");
-        	}
+	    //Write the image to the blob object
+	    OutputStream outstream = myblob.getBinaryOutputStream();
+	    int size = myblob.getBufferSize();
+	    byte[] buffer = new byte[size];
+	    int length = -1;
+	    while ((length = instream.read(buffer)) != -1)
+		outstream.write(buffer, 0, length);
+	    instream.close();
+	    outstream.close();
 
-	        String truepwd = "";
-	
-        	while(rset != null && rset.next())
-	        	truepwd = (rset.getString(1)).trim();
-	
-        	//display the result
-	        if(passwd.equals(truepwd))
-            {
-		        out.println("<p><b>Successfully logged in. Redirecting to home page...</b></p>");
+            stmt.executeUpdate("commit");
+	    response_message = " Upload OK!  ";
+            conn.close();
 
-                //TODO: OPEN UP A SESSION OR SOMETHING
-                session.setAttribute( "userid", userName);
+	} catch( Exception ex ) {
+	    //System.out.println( ex.getMessage());
+	    response_message = ex.getMessage();
+	}
 
-                out.println("<meta http-equiv=\"refresh\" content=\"2; url=index.jsp\" />");
-            }
-        	else
-	        	out.println("<p><b>Either the username or password is incorrect.</b></p>");
-
-                try{
-                        conn.close();
-                }
-                catch(Exception ex){
-                        out.println("<hr>" + ex.getMessage() + "<hr>");
-                }
-            */
-        }
-        else //no submission so redirect back to upload page
-        {
-                out.println("<meta http-equiv=\"refresh\" content=\"0; url=upload.jsp\" />");
-        }      
+	//Output response to the client
+	response.setContentType("text/html");
+	PrintWriter out = response.getWriter();
+	out.println("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 " +
+		"Transitional//EN\">\n" +
+		"<HTML>\n" +
+		"<HEAD><TITLE>Upload Message</TITLE></HEAD>\n" +
+		"<BODY>\n" +
+		"<H1>" +
+	        response_message +
+		"</H1>\n" +
+		"</BODY></HTML>");
+	}     
 %>
 
 </BODY>
