@@ -13,6 +13,8 @@ Hi, <%= userid%><span style="float:right;"><a href="logout.jsp">Logout</a></span
 <hr>
 <br>
 
+<a href=".">Back to Home</a><br><br>
+
 <FORM name = "ViewForm" action = "doViewImages.jsp" method = "post">
 <input type="radio" name="imageType" value="owned" checked="checked">View My Images<br>
 <input type="radio" name="imageType" value="popular">View Popular Images<br>

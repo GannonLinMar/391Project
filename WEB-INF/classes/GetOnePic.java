@@ -39,10 +39,9 @@ public class GetOnePic extends HttpServlet
 	// because we found all the photo ids for this username, can
 	// just ask for those photo ids here to simplify query
 	if ( picid.startsWith("big") )  
-	    query = 
-	     "select image from photos where id=" + picid.substring(3);
+	    query = "select photo from images where photo_id=" + picid.substring(3);
 	else
-	    query = "select sm_image from photos where id=" + picid;
+	    query = "select photo from images where photo_id=" + picid;
 
 	ServletOutputStream out = response.getOutputStream();
 
@@ -50,23 +49,28 @@ public class GetOnePic extends HttpServlet
 	 *   to execute the given query
 	 */
 	Connection conn = null;
-	try {
+	try
+	{
 	    conn = getConnected();
 	    Statement stmt = conn.createStatement();
 	    ResultSet rset = stmt.executeQuery(query);
 
-	    if ( rset.next() ) {
-		response.setContentType("image/jpg");
-		InputStream input = rset.getBinaryStream(1);	    
-		int imageByte;
-		while((imageByte = input.read()) != -1) {
-		    out.write(imageByte);
-		}
-		input.close();
+	    if ( rset.next() )
+	    {
+			response.setContentType("image/png");           //TODO
+			InputStream input = rset.getBinaryStream(1);	    
+			int imageByte;
+			while((imageByte = input.read()) != -1)
+			{
+			    out.write(imageByte);
+			}
+			input.close();
 	    } 
 	    else 
-		out.println("no picture available");
-	} catch( Exception ex ) {
+			out.println("Your query failed: " + query);
+	}
+	catch( Exception ex )
+	{
 	    out.println(ex.getMessage() );
 	}
 	// to close the connection
@@ -84,8 +88,8 @@ public class GetOnePic extends HttpServlet
      */
     private Connection getConnected() throws Exception {
 
-	String username = "emar";
-	String password = "Rogue_81";
+	String username = "lglin";
+	String password = "1cestack";
         /* one may replace the following for the specified database */
 	String dbstring = "jdbc:oracle:thin:@gwynne.cs.ualberta.ca:1521:CRS";
 	String driverName = "oracle.jdbc.driver.OracleDriver";
