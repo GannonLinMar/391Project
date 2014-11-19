@@ -21,6 +21,8 @@ Hi, <%= userid%><span style="float:right;"><a href="logout.jsp">Logout</a></span
 <%@ page import="oracle.sql.*" %>
 <%@ page import="oracle.jdbc.*" %>
 <%@ page import="org.apache.commons.fileupload.*" %>
+<%@ page import="org.apache.commons.io.*" %>
+<%@ page import= "javax.imageio.*" %>
 
 <%@include file="db_login/db_login.jsp" %>
 
@@ -133,6 +135,16 @@ Hi, <%= userid%><span style="float:right;"><a href="logout.jsp">Logout</a></span
 		    out.println("Your query is: " + sqlInsert + "<br><br>");
 
 		    stmt.execute(sqlInsert);
+
+
+		    //store the file extension
+		    String fullpath = item.getName();
+		    String ext = FilenameUtils.getExtension(fullpath);
+		    String extvalues = "(" + Integer.toString(pic_id) + ", '" + ext +  "')";
+		    String extension = "INSERT INTO photoExt values " + extvalues + "";
+		    out.println("Extension query: " + extension + "<br><br>");
+		    stmt.execute(extension);
+
 
 		    // to retrieve the lob_locator 
 		    // Note that you must use "FOR UPDATE" in the select statement

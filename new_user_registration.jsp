@@ -65,8 +65,8 @@
 		try{
 			statement = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
 			//date: DD-MON-YY
-			String date = "16-Nov-14";
-			String updateUsers = "insert into users values ('"+username+"', '"+password+"', '"+date+"')";
+			//String date = "16-Nov-14";
+			String updateUsers = "insert into users values ('"+username+"', '"+password+"', SYSDATE)";
 			String updatePersons = "insert into persons values('"+username+"', '"+firstName+"', '"+lastName+"', '"+address+"', '"+email+"', '"+phoneNumber+"')";
 			statement.executeUpdate(updateUsers);
 			statement.executeUpdate(updatePersons);

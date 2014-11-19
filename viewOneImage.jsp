@@ -1,6 +1,6 @@
 <HTML>
 <HEAD>
-<TITLE>Edit Group</TITLE>
+<TITLE>View Image</TITLE>
 <%
 String userid = (String)session.getAttribute("userid");
 if(userid == null)
@@ -15,24 +15,18 @@ Hi, <%= userid%><span style="float:right;"><a href="logout.jsp">Logout</a></span
 
 <%@ page import="java.sql.*" %>
 <%@ page import="java.util.*" %>
+<%@ page import="java.text.*" %>
 
 <%@include file="db_login/db_login.jsp" %>
 
 <%
-String viewTypeString = "";
-int viewType = 0;
+int photoId = 0;
 
 out.println("<a href=\"viewImages.jsp\">Back to View Images</a><br><br>");
 
-if(request.getParameter("submitViewImages") != null)
+if(request.getParameter("photoId") != null)
 {
-    viewTypeString = (request.getParameter("imageType")).trim();
-    if(viewTypeString.equals("owned"))
-    	viewType = 1;
-    else if(viewTypeString.equals("popular"))
-    	viewType = 2;
-    else if(viewTypeString.equals("search"))
-    	viewType = 3;
+    photoId = Integer.parseInt(request.getParameter("photoId"));
 
     //establish the connection to the underlying database
 	Connection conn = null;
@@ -63,24 +57,8 @@ if(request.getParameter("submitViewImages") != null)
 
     if(conn != null)
     {
-        String sql = "";
-
-    	switch(viewType)
-    	{
-    		case 1:
-                sql = "select photo_id from images where owner_name = '" + userid + "'";
-    			break;
-            case 2:
-                break;
-            case 3:
-                break;
-    		default:
-    			out.println("Not yet implemented");
-    	}
-
-    	//want to print a list of thumbnails, clicking them should take us to their display page via POST
-    	//factoring considerations: make an arraylist of thumbnail data and corresponding ID's
-    	//then a single section of code to output them generically
+        String sqlAttribs = " owner_name, permitted, subject, place, timing, description ";
+        String sql = "select" + sqlAttribs + "from images where photo_id = " + Integer.toString(photoId);
 
     	Statement stmt = null;
         ResultSet rset = null;
@@ -97,36 +75,52 @@ if(request.getParameter("submitViewImages") != null)
             out.println("<hr>" + ex.getMessage() + "<hr>");
     	}
 
-        ArrayList<Integer> idList = new ArrayList<Integer>();
-
     	while(rset != null && rset.next())
-        	idList.add((rset.getInt(1)));
-
-        //out.println("<br><button type=\"button\" id=\"newmember\">Add a new member</button><br>");
-
-        if(idList.size() < 1)
         {
-            out.println("No results to display");
+            String owner = rset.getString("owner_name");
+            int permitted = rset.getInt("permitted");
+            String subject = rset.getString("subject");
+            String place = rset.getString("place");
+            java.util.Date timing = rset.getDate("timing");
+            Format formatter = new SimpleDateFormat("yyyy-MM-dd");
+            String time = formatter.format(timing);
+            String description = rset.getString("description");
+        	
+            Boolean allowed = false;
+            if(permitted == 3) //public
+                allowed = true;
+            else if(permitted == 2) //group
+            {
+                allowed = true; //TODO
+            }
+            else if(permitted == 1 && owner.equals(userid))
+                allowed = true;
+
+            out.println("<div style=\"text-align: center\">");
+            if(allowed)
+            {
+                out.println("<img src=\"GetOnePic?big" + Integer.toString(photoId) + "\">");
+                out.println("<br><br><br>");
+                out.println("Subject: " + subject + "<br><br>");
+                out.println("Place: " + place + "<br><br>");
+                out.println("Time: " + time + "<br><br>");
+                out.println("Description: " + description + "<br>");
+            }
+            else
+            {
+                out.println("You do not have permission to view this image");
+            }
+            out.println("</div>");
         }
 
-        out.println("<div style=\"text-align: center\">");
-        for(int photoId : idList)
-        {
-            out.println("<a href=\"#\" onclick=\"ViewOneImage(" + Integer.toString(photoId) + ")\">");
-            out.println("<img src=\"GetOnePic?" + Integer.toString(photoId) + "\">");
-            out.println("</a>");
-            //out.println(name);
-            //out.println("<button onclick=\"DeleteMember('" + name + "')\">Delete</button>");
-            out.println("<br>");
-        }
-        out.println("</div>");
+        // TODO: display, and allow updating of all those attributes
 
         conn.commit();
         conn.close();
     }
 }
 else
-	out.println("Something went wrong");
+	out.println("No image ID specified");
 %>
 
 <script>
