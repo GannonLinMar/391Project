@@ -5,6 +5,9 @@
 - cd catalina/webapps
 - git clone https://github.com/GannonLinMar/391Project.git
 
+###Setup the photoExt table###
+- just run SqlSetup/extensions.sql using SqlPlus
+
 ###To setup Oracle credentials###
 - in the folder "db_login", place a file named "db_login.jsp" It's contents should be:
 
