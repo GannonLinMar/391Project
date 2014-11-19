@@ -21,6 +21,7 @@ Hi, <%= userid%><span style="float:right;"><a href="logout.jsp">Logout</a></span
 <%@ page import="oracle.sql.*" %>
 <%@ page import="oracle.jdbc.*" %>
 <%@ page import="org.apache.commons.fileupload.*" %>
+<%@ page import= "javax.imageio.*" %>
 
 <%@include file="db_login/db_login.jsp" %>
 

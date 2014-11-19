@@ -74,33 +74,43 @@ if(request.getParameter("photoId") != null)
             out.println("<hr>" + ex.getMessage() + "<hr>");
     	}
 
-        //ArrayList<Integer> idList = new ArrayList<Integer>();
-
     	while(rset != null && rset.next())
-        	; //idList.add((rset.getInt(1)));
+        {
+            String owner = rset.getString("owner_name");
+            int permitted = rset.getInt("permitted");
+            String subject = rset.getString("subject");
+            String place = rset.getString("place");
+            // TODO: how to get TIMING
+            String description = rset.getString("description");
+        	
+            Boolean allowed = false;
+            if(permitted == 3) //public
+                allowed = true;
+            else if(permitted == 2) //group
+            {
+                allowed = true; //TODO
+            }
+            else if(permitted == 1 && owner.equals(userid))
+                allowed = true;
+
+            out.println("<div style=\"text-align: center\">");
+            if(allowed)
+            {
+                out.println("<img src=\"GetOnePic?big" + Integer.toString(photoId) + "\">");
+                out.println("<br><br><br>");
+                out.println("Subject: " + subject + "<br><br>");
+                out.println("Place: " + subject + "<br><br>");
+                out.println("Time: " + "???????????? TODO" + "<br><br>");
+                out.println("Description: " + subject + "<br>");
+            }
+            else
+            {
+                out.println("You do not have permission to view this image");
+            }
+            out.println("</div>");
+        }
 
         // TODO: display, and allow updating of all those attributes
-
-        /*
-        if(idList.size() < 1)
-        {
-            out.println("No results to display");
-        }
-
-        out.println("<div style=\"text-align: center\">");
-        for(int photoId : idList)
-        {
-            out.println("<a href=\"#\" onclick=\"ViewOneImage(" + Integer.toString(photoId) + ")\">");
-            out.println("<img src=\"GetOnePic?" + Integer.toString(photoId) + "\">");
-            out.println("</a>");
-            //out.println(name);
-            //out.println("<button onclick=\"DeleteMember('" + name + "')\">Delete</button>");
-            out.println("<br>");
-        }
-        out.println("</div>");
-        */
-
-        out.println("<img src=\"GetOnePic?big" + Integer.toString(photoId) + "\">");
 
         conn.commit();
         conn.close();
