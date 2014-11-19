@@ -71,14 +71,19 @@ Hi, <%= userid%><span style="float:right;"><a href="logout.jsp">Logout</a></span
 		    
 		    // Process the uploaded items, assuming only 1 image file uploaded
 		    Iterator i = FileItems.iterator();
+		    FileItem image = (FileItem) i.next();
 		    FileItem item = (FileItem) i.next();
-		    while (i.hasNext() && item.isFormField())
-		    {
-			    item = (FileItem) i.next();
-		    }
+		    String  subject = item.getString();
+		    item = (FileItem) i.next();
+		    String place = item.getString();
+		    item = (FileItem) i.next();
+		    String when = item.getString();
+		    item = (FileItem) i.next();
+		    String desc = item.getString();
+		    
 
 		    //Get the image stream
-		    InputStream instream = item.getInputStream();
+		    InputStream instream = image.getInputStream();
 
 		    Statement stmt = conn.createStatement();
 
@@ -120,8 +125,8 @@ Hi, <%= userid%><span style="float:right;"><a href="logout.jsp">Logout</a></span
 		    {
 		    //Insert an empty blob into the table first. Note that you have to 
 		    //use the Oracle specific function empty_blob() to create an empty blob
-		    String values = Integer.toString(pic_id) + ", '" + userid + "', " + "1" + ", "
-		    	+ "'subject'" + ", " + "'place'" + ", " + "SYSDATE" + ", " + "'desc'" + ", " + " empty_blob(), "
+		    String values = Integer.toString(pic_id) + ", '" + userid + "', " + "1" + ", '"
+		    	+ subject + "', '" + place + "', " + "SYSDATE" + ", '" + desc + "', " + " empty_blob(), "
 		    	+ "empty_blob() ";
 		    String sqlInsert = "INSERT INTO images VALUES(" + values + ")";
 
