@@ -176,7 +176,9 @@ Hi, <%= userid%><span style="float:right;"><a href="logout.jsp">Logout</a></span
 	else
 		response_message = "Failed to connect to DB";
 
-	out.println(response_message);    
+	out.println(response_message);
+
+	out.println("<br><br><a href=\"upload.jsp\">Back to Upload</a>");
 %>
 
 </BODY>

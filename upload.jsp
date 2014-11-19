@@ -9,6 +9,8 @@ if(userid == null)
 <HEAD>
 <BODY>
 
+<a href=".">Back to Home</a><br><br>
+
 <FORM name = "UploadForm" action = "uploadOne.jsp" method = "post" enctype="multipart/form-data">
 Image: <INPUT type = "file" name = "file"><br>
 Subject: <INPUT type = "text" name = "subject" maxlength=50><br>
