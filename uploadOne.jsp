@@ -128,7 +128,7 @@ Hi, <%= userid%><span style="float:right;"><a href="logout.jsp">Logout</a></span
 		    //Insert an empty blob into the table first. Note that you have to 
 		    //use the Oracle specific function empty_blob() to create an empty blob
 		    String values = Integer.toString(pic_id) + ", '" + userid + "', " + "1" + ", '"
-		    	+ subject + "', '" + place + "', " + "SYSDATE" + ", '" + desc + "', " + " empty_blob(), "
+		    	+ subject + "', '" + place + "', TO_DATE('" + when + "','YYYY MM DD'), '" + desc + "', " + " empty_blob(), "
 		    	+ "empty_blob() ";
 		    String sqlInsert = "INSERT INTO images VALUES(" + values + ")";
 
