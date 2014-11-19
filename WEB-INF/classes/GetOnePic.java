@@ -35,13 +35,20 @@ public class GetOnePic extends HttpServlet
 	//  construct the query  from the client's QueryString
 	String picid  = request.getQueryString();
 	String query;
+	String extQuery;
 
 	// because we found all the photo ids for this username, can
 	// just ask for those photo ids here to simplify query
-	if ( picid.startsWith("big") )  
+	if ( picid.startsWith("big") )
+	{
 	    query = "select photo from images where photo_id=" + picid.substring(3);
+	    extQuery = "select extension from photoExt where photo_id = " + picid.substring(3);
+	}
 	else
+	{
 	    query = "select photo from images where photo_id=" + picid;
+	    extQuery = "select extension from photoExt where photo_id = " + picid;
+	}
 
 	ServletOutputStream out = response.getOutputStream();
 
@@ -52,12 +59,21 @@ public class GetOnePic extends HttpServlet
 	try
 	{
 	    conn = getConnected();
+
+	    Statement stmt2 = conn.createStatement();
+	    ResultSet rset2 = stmt2.executeQuery(extQuery);
+	    String ext = "jpg";
+	    if ( rset.next() )
+	    {
+	    	ext = rset.getString(1).trim();
+	    }
+
 	    Statement stmt = conn.createStatement();
 	    ResultSet rset = stmt.executeQuery(query);
 
 	    if ( rset.next() )
 	    {
-			response.setContentType("image/png");           //TODO
+			response.setContentType("image/" + ext);
 			InputStream input = rset.getBinaryStream(1);	    
 			int imageByte;
 			while((imageByte = input.read()) != -1)
@@ -76,6 +92,7 @@ public class GetOnePic extends HttpServlet
 	// to close the connection
 	finally {
 	    try {
+	    conn.commit();
 		conn.close();
 	    } catch ( SQLException ex) {
 		out.println( ex.getMessage() );
