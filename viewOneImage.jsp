@@ -15,6 +15,7 @@ Hi, <%= userid%><span style="float:right;"><a href="logout.jsp">Logout</a></span
 
 <%@ page import="java.sql.*" %>
 <%@ page import="java.util.*" %>
+<%@ page import="java.text.*" %>
 
 <%@include file="db_login/db_login.jsp" %>
 
@@ -80,7 +81,9 @@ if(request.getParameter("photoId") != null)
             int permitted = rset.getInt("permitted");
             String subject = rset.getString("subject");
             String place = rset.getString("place");
-            // TODO: how to get TIMING
+            java.util.Date timing = rset.getDate("timing");
+            Format formatter = new SimpleDateFormat("yyyy-MM-dd");
+            String time = formatter.format(timing);
             String description = rset.getString("description");
         	
             Boolean allowed = false;
@@ -99,9 +102,9 @@ if(request.getParameter("photoId") != null)
                 out.println("<img src=\"GetOnePic?big" + Integer.toString(photoId) + "\">");
                 out.println("<br><br><br>");
                 out.println("Subject: " + subject + "<br><br>");
-                out.println("Place: " + subject + "<br><br>");
-                out.println("Time: " + "???????????? TODO" + "<br><br>");
-                out.println("Description: " + subject + "<br>");
+                out.println("Place: " + place + "<br><br>");
+                out.println("Time: " + time + "<br><br>");
+                out.println("Description: " + description + "<br>");
             }
             else
             {
