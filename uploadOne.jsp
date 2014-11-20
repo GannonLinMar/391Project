@@ -183,6 +183,6 @@ Hi, <%= userid%><span style="float:right;"><a href="logout.jsp">Logout</a></span
 
 	out.println(response_message);    
 %>
-
+<a href="index.jsp">Back to Home</a>
 </BODY>
 </HTML>
