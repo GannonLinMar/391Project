@@ -29,12 +29,6 @@ Hi, <%= userid%><span style="float:right;"><a href="logout.jsp">Logout</a></span
 <% 
 	String response_message = "??";
 
-    //get the user input from the login page
-	//String subject = (request.getParameter("subject")).trim();
-    //String place = (request.getParameter("place")).trim();
-    //String when = (request.getParameter("when")).trim();
-    //String desc = (request.getParameter("desc")).trim();
-	//out.println("<p>Your input username: "+userName+"</p>");
 
     //establish the connection to the underlying database
 	Connection conn = null;
