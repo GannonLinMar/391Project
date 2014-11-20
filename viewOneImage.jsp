@@ -95,14 +95,33 @@ if(request.getParameter("photoId") != null)
             String description = rset.getString("description");
         	
             Boolean allowed = false;
-            if(permitted == 3) //public
+            if(permitted == 1) //public
                 allowed = true;
-            else if(permitted == 2) //group
-            {
-                allowed = true; //TODO
+            else if(permitted == 2) //private
+            {   
+                if(owner.equals(userid))
+                    allowed = true;
             }
-            else if(permitted == 1 && owner.equals(userid))
-                allowed = true;
+            else if(permitted > 2 || permitted == 0) //group
+            { //permitted=0 shouldn't happen but just in case..
+                allowed = true; //TODO
+
+                String sqlgroup = "SELECT 1 from group_lists where group_id = " + permitted + " and friend_id = '"
+                    + userid + "'";
+
+                try
+                {
+                    ResultSet rset2 = stmt.executeQuery(sql);
+                    if(!rset2.next())
+                        allowed = false;
+                }
+                catch(Exception e)
+                {
+                    out.println("Error enumerating group members<br>");
+                    allowed = false;
+                }
+            }
+
 
             out.println("<div style=\"text-align: center\">");
             if(allowed)
