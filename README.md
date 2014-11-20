@@ -1,19 +1,22 @@
 391Project
 ==========
 
-###To install###
+###Install###
 - cd catalina/webapps
 - git clone https://github.com/GannonLinMar/391Project.git
 
-###Setup the photoExt table###
-- just run SqlSetup/extensions.sql using SqlPlus
+###Setup tables###
+- cd SqlSetup
+- sqlplus
+- @setup.sql
+- @extensions.sql
+- @popular.sql
 
-
-###Setup credentials in the servlet###
+###Setup Oracle credentials in the servlet###
 - in WEB-INF/classes/GetOnePic.java, edit your credentials in at the end of the file
 - then recompile (javac GetOnePic.java)
 
-###To setup Oracle credentials###
+###Setup Oracle credentials for the JSP's###
 - in the folder "db_login", place a file named "db_login.jsp" It's contents should be:
 
 ```
