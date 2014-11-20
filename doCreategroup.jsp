@@ -76,13 +76,20 @@ Hi, <%= userid%><span style="float:right;"><a href="logout.jsp">Logout</a></span
 
             newGroupId += 1;
 
+            //insert the new group
         	String sql = "insert into groups values (" + Integer.toString(newGroupId) + ", '" + userid + "', '" + groupname + "', SYSDATE)";
             out.println("Your query:<br>" + sql + ";<br><br>");
             Boolean success = true;
+
+            //insert the group creator himself into the group
+            String firstValues = Integer.toString(newGroupId) + ", '" + userid + "', SYSDATE, 'This is me'";
+            String firstInsert = "INSERT INTO group_lists values (" + firstValues + ")";
+
         	try
             {
             	//stmt = conn.createStatement();
-                rset = stmt.executeQuery(sql);
+                stmt.execute(sql);
+                stmt.execute(firstInsert);
         	}
             catch(Exception ex)
             {
@@ -96,7 +103,10 @@ Hi, <%= userid%><span style="float:right;"><a href="logout.jsp">Logout</a></span
                 out.println("<a href=\"groups.jsp\">Back to groups</a>");
             }
 
-            conn.commit();
+            if(success)
+                conn.commit();
+            else
+                conn.rollback();
             conn.close();            
         }
     }

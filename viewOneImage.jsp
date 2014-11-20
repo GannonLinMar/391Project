@@ -122,6 +122,8 @@ if(request.getParameter("photoId") != null)
                 }
             }
 
+            if(userid.equals("admin"))
+                allowed = true;
 
             out.println("<div style=\"text-align: center\">");
             if(allowed)

@@ -86,9 +86,12 @@ if(request.getParameter("groupname") != null)
 
         for(String name : memberNames)
         {
-            out.println(name);
-            out.println("<button onclick=\"DeleteMember('" + name + "')\">Delete</button>");
-            out.println("<br>");
+            if(!name.equals(userid))
+            {
+                out.println(name);
+                out.println("<button onclick=\"DeleteMember('" + name + "')\">Delete</button>");
+                out.println("<br>");
+            }
         }
 
         conn.commit();
