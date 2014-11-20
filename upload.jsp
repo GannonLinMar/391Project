@@ -19,6 +19,6 @@ Time: <INPUT type = "text" name = "when" maxlength=50><br>
 Description: <INPUT type = "text" name = "desc" maxlength=100><br>
 <INPUT type = "submit" name = "submitupload" value = "Upload">
 </FORM>
-
+<a href="index.jsp">Back to Home</a>
 </BODY>
 </HTML>
