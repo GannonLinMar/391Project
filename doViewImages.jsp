@@ -71,6 +71,7 @@ if(request.getParameter("submitViewImages") != null)
                 sql = "select photo_id from images where owner_name = '" + userid + "'";
     			break;
             case 2:
+                // selec
                 break;
             case 3:
                 break;
