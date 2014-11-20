@@ -127,13 +127,31 @@ if(request.getParameter("photoId") != null)
 
             out.println("<div style=\"text-align: center\">");
             if(allowed)
-            {
+            {   
+                //output the image
                 out.println("<img src=\"GetOnePic?big" + Integer.toString(photoId) + "\">");
                 out.println("<br><br><br>");
                 out.println("Subject: " + subject + "<br><br>");
                 out.println("Place: " + place + "<br><br>");
                 out.println("Time: " + time + "<br><br>");
                 out.println("Description: " + description + "<br>");
+
+                //update the image's popularity
+                String popValues = Integer.toString(photoId) + ", '" + userid + "'";
+                String popSub = "SELECT * from popularity where photo_id = "
+                    + Integer.toString(photoId) + " and username = '" + userid + "'";
+                String sqlpop = "INSERT INTO popularity (photo_id, username) SELECT " + popValues
+                    + " from dual where NOT EXISTS (" + popSub + ")";
+                //out.println("popularity string: " + sqlpop + "<br>");
+
+                try
+                {
+                    stmt.execute(sqlpop);
+                }
+                catch(Exception e)
+                {
+                    out.println("Error updating image popularity: " + e.getMessage() + "<br>");
+                }
             }
             else
             {
