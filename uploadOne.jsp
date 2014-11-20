@@ -179,6 +179,6 @@ Hi, <%= userid%><span style="float:right;"><a href="logout.jsp">Logout</a></span
 
 	out.println("<br><br><a href=\"upload.jsp\">Back to Upload</a>");
 %>
-<a href="index.jsp">Back to Home</a>
+<br><a href="index.jsp">Back to Home</a>
 </BODY>
 </HTML>

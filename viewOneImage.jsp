@@ -82,8 +82,16 @@ if(request.getParameter("photoId") != null)
             String subject = rset.getString("subject");
             String place = rset.getString("place");
             java.util.Date timing = rset.getDate("timing");
-            Format formatter = new SimpleDateFormat("yyyy-MM-dd");
-            String time = formatter.format(timing);
+            String time = "";
+            try
+            {
+                Format formatter = new SimpleDateFormat("yyyy-MM-dd");
+                time = formatter.format(timing);
+            }
+            catch(IllegalArgumentException e)
+            {
+                time = "<i>not specified</i>";
+            }
             String description = rset.getString("description");
         	
             Boolean allowed = false;
