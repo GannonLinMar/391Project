@@ -82,6 +82,11 @@ Hi, <%= userid%><span style="float:right;"><a href="logout.jsp">Logout</a></span
 		    item = (FileItem) i.next();
 		    String groupName = item.getString();
 
+		    if(image.getSize() < 1)
+		    {
+		    	throw new Exception("No image specified");
+			}
+
 		    //Get the image stream
 		    InputStream instream = image.getInputStream();
 
