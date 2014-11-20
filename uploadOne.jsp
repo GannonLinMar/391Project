@@ -76,7 +76,11 @@ Hi, <%= userid%><span style="float:right;"><a href="logout.jsp">Logout</a></span
 		    String when = item.getString();
 		    item = (FileItem) i.next();
 		    String desc = item.getString();
-		    
+
+		    item = (FileItem) i.next();
+		    String permit = item.getString(); //public, private, group
+		    item = (FileItem) i.next();
+		    String groupName = item.getString();
 
 		    //Get the image stream
 		    InputStream instream = image.getInputStream();
@@ -121,7 +125,20 @@ Hi, <%= userid%><span style="float:right;"><a href="logout.jsp">Logout</a></span
 		    {
 		    //Insert an empty blob into the table first. Note that you have to 
 		    //use the Oracle specific function empty_blob() to create an empty blob
-		    String values = Integer.toString(pic_id) + ", '" + userid + "', " + "1" + ", '"
+		    String permitted = "2"; //private by default
+		    if(permit.equals("public"))
+		    	permitted = "1";
+		    else if(permit.equals("group"))
+		    {
+		    	String sqlpre = "SELECT group_id from groups where group_name = '" + groupName + "' and "
+		    		+ "user_name = '" + userid + "'";
+		    	out.println("Pre-query: " + sqlpre + "<br>");
+		    	ResultSet rset3 = stmt.executeQuery(sqlpre);
+		    	rset3.next();
+		    	int groupid = rset3.getInt(1);
+		    	permitted = Integer.toString(groupid);
+			}
+		    String values = Integer.toString(pic_id) + ", '" + userid + "', " + permitted + ", '"
 		    	+ subject + "', '" + place + "', TO_DATE('" + when + "','YYYY MM DD'), '" + desc + "', " + " empty_blob(), "
 		    	+ "empty_blob() ";
 		    String sqlInsert = "INSERT INTO images VALUES(" + values + ")";
