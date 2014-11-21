@@ -63,9 +63,9 @@ public class GetOnePic extends HttpServlet
 	    Statement stmt2 = conn.createStatement();
 	    ResultSet rset2 = stmt2.executeQuery(extQuery);
 	    String ext = "jpg";
-	    if ( rset.next() )
+	    if ( rset2.next() )
 	    {
-	    	ext = rset.getString(1).trim();
+	    	ext = rset2.getString(1).trim();
 	    }
 
 	    Statement stmt = conn.createStatement();
