@@ -76,11 +76,8 @@ if(request.getParameter("submitViewImages") != null)
                 String table1 = "images";
                 sql = "select p.photo_id, count(*) from " + table1 + " i, popularity p where i.photo_id = p.photo_id "
                     + " GROUP BY p.photo_id ORDER BY count(*) DESC";
-
                 //tie-breaking in SQL would be hard
                 //so just fetch everything, that way we can get the top 5 and tiebreak in JSP
-
-                //sql = "";
                 break;
             // Search Images
             case 3:
@@ -123,11 +120,22 @@ if(request.getParameter("submitViewImages") != null)
                 popList.add(rset.getInt(2));
         }
 
-        if(viewType == 2 && idList.size() > 5)
+        if(viewType == 2 && idList.size() > 5) //popularity search only
         {
             //truncate the list size to best 5, but also tiebreak which allows over 5 results
 
-            // TODO
+            int worstIncludedPop = popList.get(4);
+            int worstIncludedIndex = idList.size() - 1;
+
+            for(int q = 5; q < idList.size(); q++)
+            {
+                if(popList.get(q) < worstIncludedPop)
+                {
+                    worstIncludedIndex = q - 1;
+                }
+            }
+
+            idList = new ArrayList<Integer>(idList.subList(0, worstIncludedIndex + 1));
         }
 
         if(idList.size() < 1)
