@@ -4,7 +4,7 @@
 <%
 String userid = (String)session.getAttribute("userid");
 if(userid == null)
-	out.println("<meta http-equiv=\"refresh\" content=\"0; url=login.jsp\" />");
+    out.println("<meta http-equiv=\"refresh\" content=\"0; url=login.jsp\" />");
 %>
 <HEAD>
 <BODY>
@@ -30,35 +30,35 @@ if(request.getParameter("groupName") != null && request.getParameter("newName") 
     notice = request.getParameter("notice").trim();
 
     //establish the connection to the underlying database
-	Connection conn = null;
+    Connection conn = null;
 
     String driverName = "oracle.jdbc.driver.OracleDriver";
 
     //load and register the driver
     try
     {
-		Class drvClass = Class.forName(driverName); 
-    	DriverManager.registerDriver((Driver) drvClass.newInstance());
-	}
+        Class drvClass = Class.forName(driverName); 
+        DriverManager.registerDriver((Driver) drvClass.newInstance());
+    }
     catch(Exception ex)
     {
         out.println("<hr>" + ex.getMessage() + "<hr>");
     }
 
     //establish the connection
-	try
+    try
     {
         conn = DriverManager.getConnection(dbstring, db_username, db_password);
-		conn.setAutoCommit(false);
+        conn.setAutoCommit(false);
     }
-	catch(Exception ex){
+    catch(Exception ex){
     
         out.println("<hr>" + ex.getMessage() + "<hr>");
-	}
+    }
 
     if(conn != null)
     {
-    	Statement stmt = null;
+        Statement stmt = null;
         ResultSet rset = null;
 
         String values = "select group_id, " + "'" + newName + "', SYSDATE, '" + notice + "' from groups where group_name = '" + groupName + "' and user_name = '" + userid + "'";
@@ -66,15 +66,15 @@ if(request.getParameter("groupName") != null && request.getParameter("newName") 
 
         out.println("Your query:<br>" + sql + ";<br><br>");
         Boolean bSuccess = true;
-    	try{
-        	stmt = conn.createStatement();
+        try{
+            stmt = conn.createStatement();
             rset = stmt.executeQuery(sql);
-    	}
+        }
 
         catch(Exception ex){
             out.println("<hr>" + ex.getMessage() + "<hr>");
             bSuccess = false;
-    	}
+        }
 
         if(bSuccess)
         {

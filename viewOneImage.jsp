@@ -146,7 +146,21 @@ if(request.getParameter("photoId") != null)
                 out.println("<br><br>");
 
                 if(userid.equals(owner))
-                    out.println(""); //TODO: permission editing
+                {
+                    String privateDef = (permitted == 2) ? "checked=\"checked\"" : "";
+                    String publicDef = (permitted == 1) ? "checked=\"checked\"" : "";
+                    String groupDef = (permitted > 2) ? "checked=\"checked\"" : "";
+                    
+                    String permForm = "<FORM name = \"PermissionForm\" action = \"updateImage.jsp\" method = \"post\">"
+                    + "<input type=\"radio\" name=\"permit\" value=\"private\" "+ privateDef +">Private"
+                    + "<input type=\"radio\" name=\"permit\" value=\"public\""+ publicDef +">Public"
+                    + "<input type=\"radio\" name=\"permit\" value=\"group\""+ groupDef +">Only this group: "
+                    + "<INPUT type = \"text\" name = \"groupName\" maxlength=50 placeholder=\"Group Name\">"
+                    + "<input type=\"hidden\" name=\"imageId\" value=\"" + Integer.toString(photoId) + "\">"
+                    + "<INPUT type = \"submit\" name = \"submitedit\" value = \"Change\">"
+                    + "</FORM><br>";
+                    out.println(permForm); //TODO: permission editing
+                }
 
                 //update the image's popularity
                 String popValues = Integer.toString(photoId) + ", '" + userid + "'";
@@ -230,7 +244,7 @@ function Edit(attribName)
     {
         if(attribName != "timing" || newValue != "")
         {
-            post("updateImage.jsp", {imageId: <%= "'" + photoId + "'" %>, attribute: attribName, value: newValue});
+            post("updateImage.jsp", {imageId: <%= "'" + Integer.toString(photoId) + "'" %>, attribute: attribName, value: newValue});
         }
         else
             alert("You must supply a date");
