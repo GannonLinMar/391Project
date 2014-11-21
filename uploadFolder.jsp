@@ -46,9 +46,6 @@ Java 1.4 or higher plugin required.
 <td align="right">Time: </td><td align="left"><INPUT type = "text" name = "when" maxlength=50 placeholder="YYYY MM DD"></td>
 </tr>
 <tr>
-<td align="right">Description: </td><td align="left"><INPUT type = "text" name = "desc" maxlength=100></td>
-</tr>
-<tr>
 <td align="right">Permissions: </td><td align="left"><input type="radio" name="permit" value="private" checked="checked">Private
 <input type="radio" name="permit" value="public">Public
 <input type="radio" name="permit" value="group">Only this group: 
