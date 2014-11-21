@@ -16,16 +16,41 @@ function validateForm() {
 </HEAD>
 <BODY>
 	<H1><CENTER>Welcome new user!</CENTER></H1>
+	<P>Please create a new account to login to our system</P>
 	<form name = "registration" action="new_user_registration.jsp" onsubmit="return validateForm()" method="post">
-		<P>Please create a new account to login to our system</P>
-		First name: <input type="text" name="firstname"> <br>
-		Last name: <input type="text" name = "lastname"> <br>
-		Address: <input type="text" name="address"> <br>
-		Email: <input type="text" name="email"> <br>
-		Phone number: <input type="text" name="phoneNumber"> <br>
-		User name: <input type="text" name="username"> <br>
-		Password: <input type="password" name="password"> <br>
-		<input type="submit" Value = "Submit">
+	  <table>
+    <tr>
+      <td align="right">First Name:</td>
+      <td align="left"><input type="text" name="firstname" /></td>
+    </tr>
+    <tr>
+      <td align="right">Last Name:</td>
+      <td align="left"><input type="text" name="lastname" /></td>
+    </tr>
+    <tr>
+      <td align="right">Address:</td>
+      <td align="left"><input type="text" name="address" /></td>
+    </tr>
+    <tr>
+      <td align="right">Email:</td>
+      <td align="left"><input type="text" name="email" /></td>
+    </tr>
+    <tr>
+      <td align="right">Phone Number:</td>
+      <td align="left"><input type="text" name="phoneNumber" /></td>
+    </tr>
+    <tr>
+      <td align="right">User name:</td>
+      <td align="left"><input type="text" name="username" /></td>
+    </tr>
+    <tr>
+      <td align="right">Password:</td>
+      <td align="left"><input type="password" name="password" /></td>
+    </tr>
+    <tr> 
+       <td align="right"><input type="submit" Value = "Submit"></td>
+    </tr>
+  </table>
 	</form>
 
 </BODY>
