@@ -17,6 +17,8 @@ Hi, <%= userid%><span style="float:right;"><a href="logout.jsp">Logout</a></span
 <br>
 <a href="upload.jsp">Upload One Image</a>
 <br>
+<a href="uploadFolder.jsp">Upload A Folder Of Images</a>
+<br>
 <a href="groups.jsp">Manage Your Groups</a>
 <br>
 <a href="viewImages.jsp">View Images</a>
