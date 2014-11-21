@@ -11,6 +11,9 @@
 - @setup.sql
 - @extensions.sql
 - @popular.sql
+- @index.sql
+- @drjobdml.sql
+To use the drjobdml.sql file, you must run it 3 times. Each time, you must first specify the name of the index (see index.sql) and a refresh time (5 secs works).
 
 ###Setup Oracle credentials in the servlet###
 - in WEB-INF/classes/GetOnePic.java, edit your credentials in at the end of the file
