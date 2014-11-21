@@ -21,11 +21,13 @@ Hi, <%= userid%><span style="float:right;"><a href="logout.jsp">Logout</a></span
 <%
 String groupName = null;
 String newName = null;
+String notice = null;
 
 if(request.getParameter("groupName") != null && request.getParameter("newName") != null)
 {
     groupName = request.getParameter("groupName").trim();
     newName = request.getParameter("newName").trim();
+    notice = request.getParameter("notice").trim();
 
     //establish the connection to the underlying database
 	Connection conn = null;
@@ -59,7 +61,7 @@ if(request.getParameter("groupName") != null && request.getParameter("newName") 
     	Statement stmt = null;
         ResultSet rset = null;
 
-        String values = "select group_id, " + "'" + newName + "', SYSDATE, 'hi' from groups where group_name = '" + groupName + "' and user_name = '" + userid + "'";
+        String values = "select group_id, " + "'" + newName + "', SYSDATE, '" + notice + "' from groups where group_name = '" + groupName + "' and user_name = '" + userid + "'";
         String sql = "insert into group_lists " + values;
 
         out.println("Your query:<br>" + sql + ";<br><br>");
