@@ -85,7 +85,7 @@ if(request.getParameter("submitViewImages") != null)
 
 		if (radio.equals("default")){
 
-			stmt = conn.prepareStatement("select photo_id, permitted, thumbnail, photo from (select (6*score(1) + 3*score(2) +1*score(3)) as Score, photo_id, permitted, thumbnail, photo from images where contains(subject, ?, 1) >0 or contains(place, ?, 2)>0 or (description, ?, 3)>0) order by Score desc");
+			stmt = conn.prepareStatement("select photo_id, permitted, thumbnail, photo from (select (6*score(1) + 3*score(2) +1*score(3)) as Score, photo_id, permitted, thumbnail, photo from images where contains(subject, ?, 1) >0 or contains(place, ?, 2)>0 or contains(description, ?, 3)>0) order by Score desc");
 
 			stmt.setString(1, request.getParameter("keywords"));
 			stmt.setString(2, request.getParameter("keywords"));
