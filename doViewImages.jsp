@@ -63,18 +63,38 @@ if(request.getParameter("submitViewImages") != null)
 
     if(conn != null)
     {
-        String sql = "";
+        PreparedStatement stmt = null;
 
     	switch(viewType)
     	{
     		case 1:
-                sql = "select photo_id from images where owner_name = '" + userid + "'";
+                stmt = conn.prepareStatement("select photo_id from images where owner_name = '" + userid + "'");
     			break;
             case 2:
                 // selec
                 break;
             case 3:
-                break;
+                String radio = (request.getParameter("rankBy")).trim();
+
+		if (radio.equals("default")){
+
+			stmt = conn.prepareStatement("select photo_id, permitted, thumbnail, photo from (select (6*score(1) + 3*score(2) +1*score(3)) as Score, photo_id, permitted, thumbnail, photo from images where contains(subject, ?, 1) >0 or contains(place, ?, 2)>0 or (description, ?, 3)>0) order by Score desc");
+
+			stmt.setString(1, request.getParameter("keywords"));
+			stmt.setString(2, request.getParameter("keywords"));
+			stmt.setString(3, request.getParameter("keywords"));
+		
+		}
+
+		else if (radio.equals("recentFirst")) {
+			out.println("Not yet implemented");
+		}
+
+		else if (radio.equals("recentLast")) {
+			out.println("Not yet implemented");
+		}
+		
+	
     		default:
     			out.println("Not yet implemented");
     	}
@@ -83,25 +103,25 @@ if(request.getParameter("submitViewImages") != null)
     	//factoring considerations: make an arraylist of thumbnail data and corresponding ID's
     	//then a single section of code to output them generically
 
-    	Statement stmt = null;
         ResultSet rset = null;
         
-        out.println("Your query:<br>" + sql + ";<br><br>");
+        out.println("Your query:<br>" + stmt + ";<br><br>");
+
 
     	try
         {
-        	stmt = conn.createStatement();
-            rset = stmt.executeQuery(sql);
+        	
+            rset = stmt.executeQuery();
     	}
         catch(Exception ex)
         {
             out.println("<hr>" + ex.getMessage() + "<hr>");
     	}
 
-        ArrayList<Integer> idList = new ArrayList<Integer>();
+       /* ArrayList<Integer> idList = new ArrayList<Integer>();
 
     	while(rset != null && rset.next())
-        	idList.add((rset.getInt(1)));
+        	idList.add((rset.getInt(1)));*/
 
         //out.println("<br><button type=\"button\" id=\"newmember\">Add a new member</button><br>");
 
