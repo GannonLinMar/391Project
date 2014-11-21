@@ -131,10 +131,22 @@ if(request.getParameter("photoId") != null)
                 //output the image
                 out.println("<img src=\"GetOnePic?big" + Integer.toString(photoId) + "\">");
                 out.println("<br><br><br>");
-                out.println("Subject: " + subject + "<br><br>");
-                out.println("Place: " + place + "<br><br>");
-                out.println("Time: " + time + "<br><br>");
-                out.println("Description: " + description + "<br>");
+                out.println("Subject: " + subject);
+                if(userid.equals(owner))
+                    out.println("<button onclick=\"Edit('subject')\">Edit</button>");
+                out.println("<br><br>Place: " + place);
+                if(userid.equals(owner))
+                    out.println("<button onclick=\"Edit('place')\">Edit</button>");
+                out.println("<br><br>Time: " + time);
+                if(userid.equals(owner))
+                    out.println("<button onclick=\"Edit('timing')\">Edit</button>");
+                out.println("<br><br>Description: " + description);
+                if(userid.equals(owner))
+                    out.println("<button onclick=\"Edit('description')\">Edit</button>");
+                out.println("<br><br>");
+
+                if(userid.equals(owner))
+                    out.println(""); //TODO: permission editing
 
                 //update the image's popularity
                 String popValues = Integer.toString(photoId) + ", '" + userid + "'";
@@ -200,6 +212,29 @@ function post(path, params) {
 function ViewOneImage(photoId)
 {
     post("viewOneImage.jsp", {photoId: photoId});
+}
+</script>
+
+<script>
+function Edit(attribName)
+{
+    var p =
+    {subject: "New subject:"
+    , place: "New location:"
+    , timing: "New date (YYYY MM DD):"
+    , description: "New Description"}[attribName];
+
+    var newValue = prompt(p, "");
+
+    if(newValue != null) //not cancelled
+    {
+        if(attribName != "timing" || newValue != "")
+        {
+            post("updateImage.jsp", {imageId: <%= "'" + photoId + "'" %>, attribute: attribName, value: newValue});
+        }
+        else
+            alert("You must supply a date");
+    }
 }
 </script>
 
