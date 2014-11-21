@@ -94,11 +94,14 @@ if(request.getParameter("submitViewImages") != null)
 		}
 
 		else if (radio.equals("recentFirst")) {
-			out.println("Not yet implemented");
+
+			stmt = conn.prepareStatement("select photo_id, permitted, thumbnail, photo, timing from images order by timing desc");
+
 		}
 
 		else if (radio.equals("recentLast")) {
-			out.println("Not yet implemented");
+			stmt = conn.prepareStatement("select photo_id, permitted, thumbnail, photo, timing from images order by timing asc");
+
 		}
 		
 		break;
