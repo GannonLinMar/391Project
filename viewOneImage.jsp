@@ -95,24 +95,63 @@ if(request.getParameter("photoId") != null)
             String description = rset.getString("description");
         	
             Boolean allowed = false;
-            if(permitted == 3) //public
+            if(permitted == 1) //public
                 allowed = true;
-            else if(permitted == 2) //group
-            {
-                allowed = true; //TODO
+            else if(permitted == 2) //private
+            {   
+                if(owner.equals(userid))
+                    allowed = true;
             }
-            else if(permitted == 1 && owner.equals(userid))
+            else if(permitted > 2 || permitted == 0) //group
+            { //permitted=0 shouldn't happen but just in case..
+                allowed = true; //TODO
+
+                String sqlgroup = "SELECT 1 from group_lists where group_id = " + permitted + " and friend_id = '"
+                    + userid + "'";
+
+                try
+                {
+                    ResultSet rset2 = stmt.executeQuery(sql);
+                    if(!rset2.next())
+                        allowed = false;
+                }
+                catch(Exception e)
+                {
+                    out.println("Error enumerating group members<br>");
+                    allowed = false;
+                }
+            }
+
+            if(userid.equals("admin"))
                 allowed = true;
 
             out.println("<div style=\"text-align: center\">");
             if(allowed)
-            {
+            {   
+                //output the image
                 out.println("<img src=\"GetOnePic?big" + Integer.toString(photoId) + "\">");
                 out.println("<br><br><br>");
                 out.println("Subject: " + subject + "<br><br>");
                 out.println("Place: " + place + "<br><br>");
                 out.println("Time: " + time + "<br><br>");
                 out.println("Description: " + description + "<br>");
+
+                //update the image's popularity
+                String popValues = Integer.toString(photoId) + ", '" + userid + "'";
+                String popSub = "SELECT * from popularity where photo_id = "
+                    + Integer.toString(photoId) + " and username = '" + userid + "'";
+                String sqlpop = "INSERT INTO popularity (photo_id, username) SELECT " + popValues
+                    + " from dual where NOT EXISTS (" + popSub + ")";
+                //out.println("popularity string: " + sqlpop + "<br>");
+
+                try
+                {
+                    stmt.execute(sqlpop);
+                }
+                catch(Exception e)
+                {
+                    out.println("Error updating image popularity: " + e.getMessage() + "<br>");
+                }
             }
             else
             {

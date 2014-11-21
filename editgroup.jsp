@@ -86,9 +86,12 @@ if(request.getParameter("groupname") != null)
 
         for(String name : memberNames)
         {
-            out.println(name);
-            out.println("<button onclick=\"DeleteMember('" + name + "')\">Delete</button>");
-            out.println("<br>");
+            if(!name.equals(userid))
+            {
+                out.println(name);
+                out.println("<button onclick=\"DeleteMember('" + name + "')\">Delete</button>");
+                out.println("<br>");
+            }
         }
 
         conn.commit();
@@ -128,8 +131,12 @@ document.getElementById("newmember").onclick = function()
 {
     var newName = prompt("New member's userid:", "");
     if(newName != null && newName != "") //not cancelled or blank
-    {;
-        post("addGroupMember.jsp", {groupName: <%= "\"" + groupName + "\"" %>, newName: newName});
+    {
+        var notice = prompt("New member's notice (can be blank):", "");
+        if(notice == null)
+            notice = "";
+        post("addGroupMember.jsp", {groupName: <%= "\"" + groupName + "\"" %>, newName: newName
+            , notice: notice});
     }
 }
 </script>
