@@ -6,3 +6,5 @@ db_login/db_login.jsp
 
 # temp stuff
 login1.jsp
+
+WEB-INF/classes/GetOnePic.class
