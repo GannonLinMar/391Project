@@ -22,9 +22,9 @@ Hi, <%= userid%><span style="float:right;"><a href="logout.jsp">Logout</a></span
 <input type="radio" name="imageType" value="search">Search Images<br>
 Keywords: <INPUT type = "text" name = "keywords" maxlength=200> (seperate with spaces)<br>
 Time: TODO - specify time somehow <br>
-Rank by: <input type="radio" name="rankBy" value="default" checked="checked">Default
-<input type="radio" name="rankBy" value="recentFirst">Most to least recent
-<input type="radio" name="rankBy" value="recentLast">Least to most recent
+Sort by: <input type="radio" name="rankBy" value="default" checked="checked">Most relevant
+<input type="radio" name="rankBy" value="recentFirst">Newest
+<input type="radio" name="rankBy" value="recentLast">Oldest
 </div>
 <INPUT type = "submit" name = "submitViewImages" value = "Submit">
 </FORM>
