@@ -23,8 +23,27 @@ Hi, <%= userid%><span style="float:right;"><a href="logout.jsp">Logout</a></span
 <%@ page import="org.apache.commons.fileupload.*" %>
 <%@ page import="org.apache.commons.io.*" %>
 <%@ page import= "javax.imageio.*" %>
+<%@ page import= "java.awt.image.BufferedImage"%>
 
 <%@include file="db_login/db_login.jsp" %>
+
+<%!
+public static BufferedImage shrink(BufferedImage image, int n) {
+
+        int w = image.getWidth() / n;
+        int h = image.getHeight() / n;
+
+        BufferedImage shrunkImage =
+            new BufferedImage(w, h, image.getType());
+
+        for (int y=0; y < h; ++y)
+            for (int x=0; x < w; ++x)
+                shrunkImage.setRGB(x, y, image.getRGB(x*n, y*n));
+
+        return shrunkImage;
+    }
+
+%>
 
 <% 
 	String response_message = "??";
@@ -89,6 +108,10 @@ Hi, <%= userid%><span style="float:right;"><a href="logout.jsp">Logout</a></span
 
 		    //Get the image stream
 		    InputStream instream = image.getInputStream();
+		    InputStream thumbstream  = image.getInputStream();
+
+		    BufferedImage img = ImageIO.read(thumbstream);
+	    	    BufferedImage thumbNail = shrink(img, 10);
 
 		    Statement stmt = conn.createStatement();
 
@@ -154,7 +177,8 @@ Hi, <%= userid%><span style="float:right;"><a href="logout.jsp">Logout</a></span
 
 
 		    //store the file extension
-		    String fullpath = item.getName();
+		    String fullpath = image.getName();
+		    out.println(fullpath);
 		    String ext = FilenameUtils.getExtension(fullpath);
 		    String extvalues = "(" + Integer.toString(pic_id) + ", '" + ext +  "')";
 		    String extension = "INSERT INTO photoExt values " + extvalues + "";
@@ -171,17 +195,25 @@ Hi, <%= userid%><span style="float:right;"><a href="logout.jsp">Logout</a></span
 		    ResultSet rset = stmt.executeQuery(cmd);
 		    rset.next();
 		    BLOB myblob = ((OracleResultSet)rset).getBLOB("PHOTO");
+		    BLOB mythumb = ((OracleResultSet)rset).getBLOB("THUMBNAIL");
 
 
 		    //Write the image to the blob object
 		    OutputStream outstream = myblob.getBinaryOutputStream();
+		    OutputStream outthumb = mythumb.getBinaryOutputStream();
+		    ImageIO.write(thumbNail, (String)ext, outthumb);
+
 		    int size = myblob.getBufferSize();
 		    byte[] buffer = new byte[size];
 		    int length = -1;
+
 		    while ((length = instream.read(buffer)) != -1)
 			outstream.write(buffer, 0, length);
+
 		    instream.close();
+		    thumbstream.close();
 		    outstream.close();
+		    outthumb.close();
 
 		    response_message = "Upload OK";
 		    stmt.executeUpdate("commit");
