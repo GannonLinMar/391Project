@@ -111,7 +111,7 @@ public static BufferedImage shrink(BufferedImage image, int n) {
 		    InputStream thumbstream  = image.getInputStream();
 
 		    BufferedImage img = ImageIO.read(thumbstream);
-	    	    BufferedImage thumbNail = shrink(img, 10);
+	    	BufferedImage thumbNail = shrink(img, 3);
 
 		    Statement stmt = conn.createStatement();
 
