@@ -46,7 +46,7 @@ public class GetOnePic extends HttpServlet
 	}
 	else
 	{
-	    query = "select photo from images where photo_id=" + picid;
+	    query = "select thumbnail from images where photo_id=" + picid;
 	    extQuery = "select extension from photoExt where photo_id = " + picid;
 	}
 
@@ -105,8 +105,8 @@ public class GetOnePic extends HttpServlet
      */
     private Connection getConnected() throws Exception {
 
-	String username = "lglin";
-	String password = "1cestack";
+	String username = "emar";
+	String password = "Rogue_81";
         /* one may replace the following for the specified database */
 	String dbstring = "jdbc:oracle:thin:@gwynne.cs.ualberta.ca:1521:CRS";
 	String driverName = "oracle.jdbc.driver.OracleDriver";
