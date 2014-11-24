@@ -1,6 +1,6 @@
 <HTML>
 <HEAD>
-<TITLE>My Groups</TITLE>
+<TITLE>My Info</TITLE>
 <%
 String userid = (String)session.getAttribute("userid");
 if(userid == null)
@@ -9,7 +9,7 @@ if(userid == null)
 <HEAD>
 <BODY>
 
-Hi, <%= userid%><span style="float:right;"><a href="myinfo.jsp">My Info</a> <a href="logout.jsp">Logout</a></span>
+Hi, <%= userid%><span style="float:right;"><a href="logout.jsp">Logout</a></span>
 <hr>
 <br>
 
@@ -17,6 +17,16 @@ Hi, <%= userid%><span style="float:right;"><a href="myinfo.jsp">My Info</a> <a h
 <%@ page import="java.util.*" %>
 
 <%@include file="db_login/db_login.jsp" %>
+
+<script>
+function validateForm() {
+    var x = document.forms["editInfo"]["firstname", "lastname", "address", "phoneNumber"].value;
+    if (x==null || x=="") {
+        alert("One or more fields are empty!");
+        return false;
+    }
+}
+</script>
 
 <%
     out.println("<a href=\".\">Back to Home</a><br><br>");
@@ -53,36 +63,56 @@ Hi, <%= userid%><span style="float:right;"><a href="myinfo.jsp">My Info</a> <a h
         //select the user table from the underlying db and validate the user name and password
     	Statement stmt = null;
         ResultSet rset = null;
-    	String sql = "select group_name from groups where user_name = '" +userid +"'";
+    	String sql = "SELECT first_name, last_name, address, email, phone FROM persons WHERE user_name = '"+userid +"'";
         out.println("Your query:<br>" + sql + ";<br><br>");
-    	try{
+        Boolean success = true;
+    	try
+        {
         	stmt = conn.createStatement();
             rset = stmt.executeQuery(sql);
     	}
-
-        catch(Exception ex){
+        catch(Exception ex)
+        {
             out.println("<hr>" + ex.getMessage() + "<hr>");
+            success = false;
     	}
 
-        ArrayList<String> groupNames = new ArrayList<String>();
-
-    	while(rset != null && rset.next())
-        	groupNames.add((rset.getString(1)).trim());
-
-        out.println("<button type=\"button\" id=\"creategroup\" name=\"newgroup\">Create New Group</button><br>");
-
-        if(groupNames.size() < 1)
+        if(success)
         {
-            out.println("You don't have any groups");
-        }
-        else
-            out.println("Your groups:<br>");
+            rset.next();
+            String first = rset.getString("first_name").trim();
+            String last = rset.getString("last_name").trim();
+            String addr = rset.getString("address").trim();
+            String email = rset.getString("email").trim();
+            String phone = rset.getString("phone").trim();
 
-        for(String groupName : groupNames)
-        {
-            out.println(groupName);
-            out.println("<button onclick=\"EditGroup('" + groupName + "')\">View/Edit</button>");
-            out.println("<br>");
+            String form = 
+            "<form name = \"editInfo\" action=\"editInfo.jsp\" onsubmit=\"return validateForm()\" method=\"post\">"
+            +"<table>"
+            +"<tr>"
+            +"<td align=\"right\">First Name:</td>"
+            +"<td align=\"left\"><input type=\"text\" name=\"firstname\" value=\""+first+"\" /></td>"
+            +"</tr>"
+            +"<tr>"
+            +"<td align=\"right\">Last Name:</td>"
+            +"<td align=\"left\"><input type=\"text\" name=\"lastname\" value=\""+last+"\" /></td>"
+            +"</tr>"
+            +"<tr>"
+            +"<td align=\"right\">Address:</td>"
+            +"<td align=\"left\"><input type=\"text\" name=\"address\" value=\""+addr+"\" /></td>"
+            +"</tr>"
+            +"<tr>"
+            +"<td align=\"right\">Email:</td>"
+            +"<td align=\"left\"><input type=\"text\" name=\"email\" value=\""+email+"\" /></td>"
+            +"</tr>"
+            +"<tr>"
+            +"<td align=\"right\">Phone Number:</td>"
+            +"<td align=\"left\"><input type=\"text\" name=\"phoneNumber\" value=\""+phone+"\" /></td>"
+            +"</tr>"
+            +"</table>"
+            +"</form>";
+
+            out.println(form);
         }
 
         conn.commit();
@@ -113,25 +143,6 @@ function post(path, params) {
 
     document.body.appendChild(form);
     form.submit();
-}
-</script>
-
-<script>
-document.getElementById("creategroup").onclick = function()
-{
-    var newname = prompt("New group name:", "");
-    if(newname != null && newname != "") //not cancelled or blank
-    {
-        //window.location.href = "doCreategroup.jsp?newname=" + newname;
-        post("doCreategroup.jsp", {newname: newname});
-    }
-}
-</script>
-
-<script>
-function EditGroup(groupname)
-{
-    post("editgroup.jsp", {groupname: groupname});
 }
 </script>
 
