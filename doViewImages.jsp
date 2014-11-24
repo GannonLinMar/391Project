@@ -75,7 +75,7 @@ if(request.getParameter("submitViewImages") != null)
             // View Popular Images
             case 2:
                 String table1 = "images";
-                stmt = conn.prepareStatement("select p.photo_id, count(*) from " + table1 + " i, popularity p where i.photo_id = p.photo_id " + " GROUP BY p.photo_id ORDER BY count(*) DESC");
+                stmt = conn.prepareStatement("select p.photo_id, i.permitted, count(*) from " + table1 + " i, popularity p where i.photo_id = p.photo_id " + " GROUP BY p.photo_id, i.permitted ORDER BY count(*) DESC");
                 //tie-breaking in SQL would be hard
                 //so just fetch everything, that way we can get the top 5 and tiebreak in JSP
 		stmt2 = conn.prepareStatement("select group_id from group_lists where friend_id = '"+userid+"'");
@@ -160,7 +160,7 @@ if(request.getParameter("submitViewImages") != null)
 	    while(rset != null && rset.next())
        	    {
         	idList.add((rset.getInt(1)));
-                popList.add(rset.getInt(2));
+                popList.add(rset.getInt(3));
             }
 
             int worstIncludedPop = popList.get(4);
