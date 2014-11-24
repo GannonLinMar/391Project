@@ -75,10 +75,10 @@ if(request.getParameter("submitViewImages") != null)
             // View Popular Images
             case 2:
                 String table1 = "images";
-                stmt = conn.prepareStatement("select p.photo_id, count(*) from " + table1 + " i, popularity p where i.photo_id = p.photo_id "
-                    + " GROUP BY p.photo_id ORDER BY count(*) DESC");
+                stmt = conn.prepareStatement("select p.photo_id, count(*) from " + table1 + " i, popularity p where i.photo_id = p.photo_id " + " GROUP BY p.photo_id ORDER BY count(*) DESC");
                 //tie-breaking in SQL would be hard
                 //so just fetch everything, that way we can get the top 5 and tiebreak in JSP
+		stmt2 = conn.prepareStatement("select group_id from group_lists where friend_id = '"+userid+"'");
                 break;
             // Search Images
             case 3:
@@ -147,13 +147,6 @@ if(request.getParameter("submitViewImages") != null)
 
 	ArrayList<Integer> permitList = new ArrayList<Integer>();
 
-    /*	while(rset != null && rset.next())
-        {
-        	idList.add((rset.getInt(1)));
-            if(viewType == 2)
-                popList.add(rset.getInt(2));
-        }*/
-
 	if (viewType == 1){
 		while(rset != null && rset.next()){
         		idList.add((rset.getInt(1)));
@@ -184,7 +177,7 @@ if(request.getParameter("submitViewImages") != null)
             idList = new ArrayList<Integer>(idList.subList(0, worstIncludedIndex + 1));
         }
 
-	if(viewType == 3) {
+	if(viewType == 3 || viewType == 2) {
 		//create a second list that user is permitted to access
 		ResultSet rset2 = null;
 	    	try{	
@@ -201,7 +194,8 @@ if(request.getParameter("submitViewImages") != null)
 			permitList.add(rset2.getInt(1));
 		}
 		
-		permitList.add(1);
+		//out.println(permitList.get(1));
+		//permitList.add(1);
 		
 		while(rset != null && rset.next()){
 			if(permitList.contains(rset.getInt(2)))

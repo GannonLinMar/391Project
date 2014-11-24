@@ -76,6 +76,22 @@
 			out.println("<hr>" + ex.getMessage() + "<hr>");
 		}
 
+		Statement stmt = null;
+
+		String notice = "You are now able to see public images!";
+		String insertPublic = "insert into group_lists values (1, '"+username+"', SYSDATE, '"+notice+"')";
+
+		try{
+
+			stmt = conn.createStatement();
+			stmt.executeUpdate(insertPublic);
+		}
+
+		catch(Exception ex) {
+			out.println("<hr>" + ex.getMessage() + "<hr>");
+		}
+        
+
 		//close the connection
 		try{
 			conn.commit();
