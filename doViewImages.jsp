@@ -64,6 +64,7 @@ if(request.getParameter("submitViewImages") != null)
     if(conn != null)
     {
         PreparedStatement stmt = null;
+	PreparedStatement stmt2 = null;
 
     	switch(viewType)
     	{
@@ -74,10 +75,10 @@ if(request.getParameter("submitViewImages") != null)
             // View Popular Images
             case 2:
                 String table1 = "images";
-                stmt = conn.prepareStatement("select p.photo_id, count(*) from " + table1 + " i, popularity p where i.photo_id = p.photo_id "
-                    + " GROUP BY p.photo_id ORDER BY count(*) DESC");
+                stmt = conn.prepareStatement("select p.photo_id, i.permitted, count(*) from " + table1 + " i, popularity p where i.photo_id = p.photo_id " + " GROUP BY p.photo_id, i.permitted ORDER BY count(*) DESC");
                 //tie-breaking in SQL would be hard
                 //so just fetch everything, that way we can get the top 5 and tiebreak in JSP
+		stmt2 = conn.prepareStatement("select group_id from group_lists where friend_id = '"+userid+"'");
                 break;
             // Search Images
             case 3:
@@ -85,26 +86,38 @@ if(request.getParameter("submitViewImages") != null)
 
 		if (radio.equals("default")){
 
-			stmt = conn.prepareStatement("select photo_id, permitted, thumbnail, photo from (select (6*score(1) + 3*score(2) +1*score(3)) as Score, photo_id, permitted, thumbnail, photo from images where contains(subject, ?, 1) >0 or contains(place, ?, 2)>0 or contains(description, ?, 3)>0) order by Score desc");
+			stmt = conn.prepareStatement("select photo_id, permitted from (select (6*score(1) + 3*score(2) +1*score(3)) as Score, photo_id, permitted from images where contains(subject, ?, 1) >0 or contains(place, ?, 2)>0 or contains(description, ?, 3)>0) order by Score desc");
 
 			stmt.setString(1, request.getParameter("keywords"));
 			stmt.setString(2, request.getParameter("keywords"));
 			stmt.setString(3, request.getParameter("keywords"));
 		
+			stmt2 = conn.prepareStatement("select group_id from group_lists where friend_id = '"+userid+"'");
 		}
 
 		else if (radio.equals("recentFirst")) {
 
-			stmt = conn.prepareStatement("select photo_id, permitted, thumbnail, photo, timing from images order by timing desc");
+			stmt = conn.prepareStatement("select photo_id, permitted from (select photo_id, permitted, timing from images where contains(subject, ?, 1) >0 or contains(place, ?, 2)>0 or contains(description, ?, 3)>0) order by timing desc");
+			stmt.setString(1, request.getParameter("keywords"));
+			stmt.setString(2, request.getParameter("keywords"));
+			stmt.setString(3, request.getParameter("keywords"));
+		
+			stmt2 = conn.prepareStatement("select group_id from group_lists where friend_id = '"+userid+"'");
 
 		}
 
 		else if (radio.equals("recentLast")) {
-			stmt = conn.prepareStatement("select photo_id, permitted, thumbnail, photo, timing from images order by timing asc");
+			stmt = conn.prepareStatement("select photo_id, permitted from (select photo_id, permitted, timing from images where contains(subject, ?, 1) >0 or contains(place, ?, 2)>0 or contains(description, ?, 3)>0) order by timing asc");
+			stmt.setString(1, request.getParameter("keywords"));
+			stmt.setString(2, request.getParameter("keywords"));
+			stmt.setString(3, request.getParameter("keywords"));
+		
+			stmt2 = conn.prepareStatement("select group_id from group_lists where friend_id = '"+userid+"'");
 
 		}
 		
 		break;
+
     		default:
     			out.println("Something is terribly wrong");
     	}
@@ -132,16 +145,23 @@ if(request.getParameter("submitViewImages") != null)
 
         ArrayList<Integer> popList = new ArrayList<Integer>();
 
-    	while(rset != null && rset.next())
-        {
-        	idList.add((rset.getInt(1)));
-            if(viewType == 2)
-                popList.add(rset.getInt(2));
-        }
+	ArrayList<Integer> permitList = new ArrayList<Integer>();
+
+	if (viewType == 1){
+		while(rset != null && rset.next()){
+        		idList.add((rset.getInt(1)));
+        	}
+	}
 
         if(viewType == 2 && idList.size() > 5) //popularity search only
         {
             //truncate the list size to best 5, but also tiebreak which allows over 5 results
+
+	    while(rset != null && rset.next())
+       	    {
+        	idList.add((rset.getInt(1)));
+                popList.add(rset.getInt(3));
+            }
 
             int worstIncludedPop = popList.get(4);
             int worstIncludedIndex = idList.size() - 1;
@@ -156,6 +176,36 @@ if(request.getParameter("submitViewImages") != null)
 
             idList = new ArrayList<Integer>(idList.subList(0, worstIncludedIndex + 1));
         }
+
+	if(viewType == 3 || viewType == 2) {
+		//create a second list that user is permitted to access
+		ResultSet rset2 = null;
+	    	try{	
+			
+        		rset2 = stmt2.executeQuery();
+    		}
+
+	        catch(Exception ex){
+           		out.println("<hr>" + ex.getMessage() + "<hr>");
+    		}		
+
+
+		while(rset2 != null && rset2.next()){
+			permitList.add(rset2.getInt(1));
+		}
+		
+		//out.println(permitList.get(1));
+		//permitList.add(1);
+		
+		while(rset != null && rset.next()){
+			if(permitList.contains(rset.getInt(2)))
+				idList.add(rset.getInt(1));
+			
+
+     		}
+
+	}
+
 
         if(idList.size() < 1)
         {
