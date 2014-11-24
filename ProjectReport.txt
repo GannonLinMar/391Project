@@ -1,0 +1,45 @@
+[Homepage]
+
+index.jsp
+- Provides links to all our other modules
+
+[User Management Module]
+
+login.jsp ==> doLogin.jsp
+- users are automatically redirected from any page to this one if they have not yet logged in
+- allows the user to login by providing their username and password
+- checks the user's credentials before instantiating a session and setting the session variable "userid" to their username
+- SQL query for password checking: "select password from users where user_name = '"+userName+"'"
+
+logout.jsp
+- can be accessed from any page via our top bar
+- logs out the user's current session
+- uses session.invalidate()
+new_user_registration.html ==> new_user_registration.jsp
+
+- can be accessed from the login.jsp page
+- allows a user to register an account
+- inserts the user's provided information into the database
+- SQL query 1: "insert into users values ('"+username+"', '"+password+"', SYSDATE)"
+- SQL query 2: "insert into persons values('"+username+"', '"+firstName+"', '"+lastName+"', '"+address+"', '"+email+"', '"+phoneNumber+"')"
+
+myinfo.jsp
+- can be accessed from most pages via our top bar
+- allows the user to view their own information
+- SQL query: "SELECT first_name, last_name, address, email, phone FROM persons WHERE user_name = '"+userid +"'"
+
+[Uploading Modjule]
+
+upload.jsp ==> uploadOne.jsp
+uploadFolder.jsp ==> uploadMultiple.jsp
+
+[Security Module]
+
+groups.jsp ==> editGroup.jsp
+editGroup.jsp ==> addGroupMember.jsp, deleteGroupMember.jsp
+
+[Display And Search Module]
+
+viewImages.jsp
+doViewImages.jsp ==> viewOneImage.jsp
+viewOneImage => updateImage.jsp
