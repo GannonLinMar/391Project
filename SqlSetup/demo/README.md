@@ -1,0 +1,3 @@
+- sqlplus
+- @setup_2014f
+- @demosetup

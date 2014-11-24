@@ -201,6 +201,7 @@ public static BufferedImage shrink(BufferedImage image, int n) {
 		    //Write the image to the blob object
 		    OutputStream outstream = myblob.getBinaryOutputStream();
 		    OutputStream outthumb = mythumb.getBinaryOutputStream();
+		    
 		    ImageIO.write(thumbNail, (String)ext, outthumb);
 
 		    int size = myblob.getBufferSize();
