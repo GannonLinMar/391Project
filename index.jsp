@@ -25,6 +25,7 @@ Hi, <%= userid%><span style="float:right;"><a href="myinfo.jsp">My Info</a> <a h
 
 <%
 userid = (String)session.getAttribute("userid");
+if(userid != null)
 if(userid.equals("admin"))
 	out.println("<br> <a href='adminModule.jsp'>Admin Module</a>");
 %>
