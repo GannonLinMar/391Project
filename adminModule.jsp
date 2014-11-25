@@ -31,7 +31,7 @@ Hi, <%= userid%><span style="float:right;"><a href="myinfo.jsp">My Info</a> <a h
 </td>
 </tr>
 <tr>
-<td align="right"><INPUT type = "submit" name = "submitupload" value = "Upload"></td>
+<td align="right"><INPUT type = "submit" name = "submitupload" value = "Submit"></td>
 </tr>
 </table>
 </FORM>
