@@ -28,7 +28,18 @@ Hi, <%= userid%><span style="float:right;"><a href="logout.jsp">Logout</a></span
 
 <%@include file="db_login/db_login.jsp" %>
 
-<%    //establish the connection to the underlying database
+<%    
+	if(request.getParameter("submit") != null)
+        {
+
+	        //get the user input from the login page
+        	String subject = (request.getParameter("subject")).trim();
+	        String rangeStart = (request.getParameter("rangeStart")).trim();
+            String rangeEnd = (request.getParameter("rangeEnd")).trim();
+            String timeFrame = (request.getParameter("time_frame")).trim();}
+
+
+	//establish the connection to the underlying database
 	Connection conn = null;
 
     String driverName = "oracle.jdbc.driver.OracleDriver";
