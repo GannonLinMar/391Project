@@ -11,7 +11,7 @@ if(userid == null)
 </HEAD>
 <BODY>
 
-Hi, <%= userid%><span style="float:right;"><a href="myinfo.jsp">My Info</a> <a href="logout.jsp">Logout</a></span>
+Hi, <%= userid%><span style="float:right;"><a href="myinfo.jsp">My Info</a> <a href="logout.jsp">Logout</a> <a href="help.jsp">Help Page</a></span>
 <hr>
 
 <br>
