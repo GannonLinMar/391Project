@@ -1,6 +1,6 @@
 <HTML>
 <HEAD>
-<TITLE>Upload Image</TITLE>
+<TITLE>Admin Form</TITLE>
 <%
 String userid = (String)session.getAttribute("userid");
 if(userid == null)
