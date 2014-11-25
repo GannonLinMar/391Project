@@ -28,7 +28,7 @@ Hi, <%= userid%><span style="float:right;"><a href="logout.jsp">Logout</a></span
 
 <%@include file="db_login/db_login.jsp" %>
 
-    //establish the connection to the underlying database
+<%    //establish the connection to the underlying database
 	Connection conn = null;
 
     String driverName = "oracle.jdbc.driver.OracleDriver";
@@ -54,6 +54,7 @@ Hi, <%= userid%><span style="float:right;"><a href="logout.jsp">Logout</a></span
     
         out.println("<hr>" + ex.getMessage() + "<hr>");
 	}
+%>
 
 <br><a href="index.jsp">Back to Home</a>
 </BODY>
