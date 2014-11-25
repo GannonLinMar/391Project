@@ -31,12 +31,8 @@ Hi, <%= userid%><span style="float:right;"><a href="logout.jsp">Logout</a></span
 <%    
 	if(request.getParameter("submit") != null)
         {
-
-	        //get the user input from the login page
-        	String subject = (request.getParameter("subject")).trim();
-	        String rangeStart = (request.getParameter("rangeStart")).trim();
-            String rangeEnd = (request.getParameter("rangeEnd")).trim();
-            String timeFrame = (request.getParameter("time_frame")).trim();}
+            String Xvalue = (request.getParameter("Xvalue")).trim();
+            String Yvalue = (request.getParameter("Yvalue")).trim();}
 
 
 	//establish the connection to the underlying database
