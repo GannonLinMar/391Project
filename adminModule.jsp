@@ -13,7 +13,7 @@ if(!userid.equals("admin"))
 Hi, <%= userid%><span style="float:right;"><a href="myinfo.jsp">My Info</a> <a href="logout.jsp">Logout</a></span>
 <hr>
 <br>
-<FORM name = "OLAPform" action = "OLAP.jsp" method = "post" enctype="multipart/form-data">
+<FORM name = "OLAPform" action = "Olap.jsp" method = "post" enctype="multipart/form-data">
 <table>
 <tr>
 <td align="right">Subject:</td><td align="left"><INPUT type = "text" name = "subject" maxlength=50></td>
