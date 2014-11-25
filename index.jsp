@@ -13,7 +13,7 @@ if(userid == null)
 
 Hi, <%= userid%><span style="float:right;"><a href="myinfo.jsp">My Info</a> <a href="logout.jsp">Logout</a> <a href="help.jsp">Help Page</a></span>
 <hr>
-
+<h1>Main Menu</h1>
 <br>
 <a href="upload.jsp">Upload One Image</a>
 <br>

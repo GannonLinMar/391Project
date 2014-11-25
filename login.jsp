@@ -3,7 +3,8 @@
 <TITLE>Please Login</TITLE>
 <HEAD>
 <BODY>
-<P>Please login to view this page</P>
+<h1>Welcome to the Login Page!</h1>
+<P>Please login to access the site.</P>
 <FORM name = "LoginForm" action = "doLogin.jsp" method = "post">
 	  <table>
     <tr>
