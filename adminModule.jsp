@@ -19,13 +19,17 @@ Hi, <%= userid%><span style="float:right;"><a href="myinfo.jsp">My Info</a> <a h
 <tr>
 <td align="right">First parameter to query on: </td><td align="left"><input type="radio" name="Xvalue" value="weekly" checked="user">User
 <input type="radio" name="Xvalue" value="subject">Subject
-<input type="radio" name="Xvalue" value="time">Time
+<input type="radio" name="Yvalue" value="year">Year
+<input type="radio" name="Yvalue" value="month">Month
+<input type="radio" name="Yvalue" value="week">Week
 </td>
 </tr>
 <tr>
 <td align="right">  Second parameter to query on: </td><td align="left"><input type="radio" name="Yvalue" value="weekly" checked="user">User
 <input type="radio" name="Yvalue" value="subject">Subject
-<input type="radio" name="Yvalue" value="time">Time
+<input type="radio" name="Yvalue" value="year">Year
+<input type="radio" name="Yvalue" value="month">Month
+<input type="radio" name="Yvalue" value="week">Week
 </td>
 </tr>
 <tr>
