@@ -64,7 +64,23 @@ Hi, <%= userid%><span style="float:right;"><a href="logout.jsp">Logout</a></span
     
         out.println("<hr>" + ex.getMessage() + "<hr>");
 	}
+
+	String query="SELECT DATE, COUNT(photo_id) FROM IMAGES WHERE";
 %>
+
+<FORM name = "OLAPform" action = "Olap.jsp" method = "post" enctype="multipart/form-data">
+<table>
+<tr>
+<td align="right">Time frame: </td><td align="left"><input type="radio" name="timeFrame" value="week" checked="user">Weekly
+<input type="radio" name="timeFrame" value="month">Monthly
+<input type="radio" name="timeFrame" value="year">Yearly
+</td>
+</tr>
+<tr>
+<td align="right"><INPUT type = "submit" name = "submitupload" value = "Submit"></td>
+</tr>
+</table>
+</FORM>
 
 <br><a href="index.jsp">Back to Home</a>
 </BODY>
