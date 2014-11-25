@@ -17,21 +17,24 @@ Hi, <%= userid%><span style="float:right;"><a href="myinfo.jsp">My Info</a> <a h
 <FORM name = "OLAPform" action = "Olap.jsp" method = "post" enctype="multipart/form-data">
 <table>
 <tr>
-<td align="right">First parameter to query on: </td><td align="left"><input type="radio" name="Xvalue" value="weekly" checked="user">User
-<input type="radio" name="Xvalue" value="subject">Subject
-<input type="radio" name="Yvalue" value="year">Year
-<input type="radio" name="Yvalue" value="month">Month
-<input type="radio" name="Yvalue" value="week">Week
-</td>
+<td align="right">User: </td><td align="left"><INPUT type = "text" name = "user" maxlength=50></td>
 </tr>
 <tr>
-<td align="right">  Second parameter to query on: </td><td align="left"><input type="radio" name="Yvalue" value="weekly" checked="user">User
-<input type="radio" name="Yvalue" value="subject">Subject
-<input type="radio" name="Yvalue" value="year">Year
-<input type="radio" name="Yvalue" value="month">Month
-<input type="radio" name="Yvalue" value="week">Week
+<td align="right">Subject:</td><td align="left"><INPUT type = "text" name = "subject" maxlength=50></td>
+</tr>
+<tr>
+<td align="right">Start Date: </td><td align="left"><INPUT type = "text" name = "start" maxlength=50 placeholder="YYYY MM DD"></td>
+</tr>
+<tr>
+<td align="right">End Date: </td><td align="left"><INPUT type = "text" name = "end" maxlength=50 placeholder="YYYY MM DD"></td>
+</tr>
+<tr>
+<td align="right">Time frame: </td><td align="left"><input type="radio" name="timeFrame" value="week" checked="user">Weekly
+<input type="radio" name="timeFrame" value="month">Monthly
+<input type="radio" name="timeFrame" value="year">Yearly
 </td>
 </tr>
+
 <tr>
 <td align="right"><INPUT type = "submit" name = "submitupload" value = "Submit"></td>
 </tr>

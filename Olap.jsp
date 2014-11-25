@@ -31,8 +31,11 @@ Hi, <%= userid%><span style="float:right;"><a href="logout.jsp">Logout</a></span
 <%    
 	if(request.getParameter("submit") != null)
         {
-            String Xvalue = (request.getParameter("Xvalue")).trim();
-            String Yvalue = (request.getParameter("Yvalue")).trim();}
+            String user = (request.getParameter("user")).trim();
+            String subject = (request.getParameter("subject")).trim();
+            String start = (request.getParameter("start")).trim();
+            String end = (request.getParameter("end")).trim();
+            String timeFrame = (request.getParameter("timeFrame")).trim();}
 
 
 	//establish the connection to the underlying database
