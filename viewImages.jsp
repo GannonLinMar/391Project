@@ -21,10 +21,12 @@ Hi, <%= userid%><span style="float:right;"><a href="myinfo.jsp">My Info</a> <a h
 <div style="border: thin dotted gray; width: 450">
 <input type="radio" name="imageType" value="search">Search Images<br>
 Keywords: <INPUT type = "text" name = "keywords" maxlength=200> (seperate with spaces)<br>
-Time: TODO - specify time somehow <br>
 Sort by: <input type="radio" name="rankBy" value="default" checked="checked">Most relevant
 <input type="radio" name="rankBy" value="recentFirst">Newest
-<input type="radio" name="rankBy" value="recentLast">Oldest
+<input type="radio" name="rankBy" value="recentLast">Oldest <br>
+<input type = "radio" name="imageType" value="date">Search by Date <br> 
+From: <input type ="text" name ="lower_date" maxlength=10 placeholder="YYYY MM DD"<br>
+To: <input type="text" name="upper_date" maxlength=10 placeholder="YYYY MM DD"<br>
 </div>
 <INPUT type = "submit" name = "submitViewImages" value = "Submit">
 </FORM>
