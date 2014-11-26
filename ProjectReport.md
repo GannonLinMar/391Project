@@ -129,7 +129,15 @@ viewImages.jsp ==> doViewImages.jsp
 
 doViewImages.jsp ==> viewOneImage.jsp
 
-- a
+- Retrieves and displays a list of image thumbnails corresponding to the submitted viewing parameters
+- For owned images, uses the SQL query: "select photo_id from images where owner_name = '" + userid + "'"
+- For popular images, uses the SQl query: "select p.photo_id, i.permitted, count(*) from " + "images" + " i, popularity p where i.photo_id = p.photo_id " + " GROUP BY p.photo_id, i.permitted ORDER BY count(*) DESC"
+- For keyword search, uses the SQL query: "select photo_id, permitted from (select (6*score(1) + 3*score(2) +1*score(3)) as Score, photo_id, permitted from images where contains(subject, ?, 1) >0 or contains(place, ?, 2)>0 or contains(description, ?, 3)>0)"
+- For date search, the SQL query is: "select photo_id, permitted, timing from images where timing between TO_DATE('"+lower+"','YYYY MM DD') and TO_DATE('"+upper+"','YYYY MM DD') order by timing asc"
+- Additionally, the page enforces security by ensuring that the user can never see the thumbnail of an image they do not have permission to view
+- The page allows the user to click a thumbnail, which submits the corresponding image ID to viewOneImage.jsp via POST using Javascript, where the user will be able to view the full resolution version of the image as well as its associated information
+- Fetching the actual thumbnails is delegated to the image-fetching servlet GetOnePic.class (GetOnePic.java)
+- The page allows the user to navigate back to the View Image page (viewImages.jsp)
 
 viewOneImage ==> GetOnePic.java, updateImage.jsp
 
