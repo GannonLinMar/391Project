@@ -39,6 +39,11 @@ myinfo.jsp
 - SQL query for retrieving info: "SELECT first_name, last_name, address, email, phone FROM persons WHERE user_name = '"+userid +"'"
 - displays each piece of retrieved information in a text box
 
+help.jsp
+
+- can be accessed from most pages via our top bar
+- provides the user with the same information as outlined in userDoc.txt, basic installation and operation information of our site.
+
 ###[Uploading Module]
 
 upload.jsp ==> uploadOne.jsp
