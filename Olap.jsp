@@ -30,12 +30,16 @@ Hi, <%= userid%><span style="float:right;"><a href="logout.jsp">Logout</a></span
 <%@include file="db_login/db_login.jsp" %>
 
 <%    
+String user = "";
+String subject = "";
+String start = "";
+String end = "";
 if(request.getParameter("timeFrame") != null) 
 {
-	String user = (request.getParameter("user")).trim();
-    String subject = (request.getParameter("subject")).trim();
-    String start = (request.getParameter("start")).trim();
-    String end = (request.getParameter("end")).trim();
+	user = (request.getParameter("user")).trim();
+    subject = (request.getParameter("subject")).trim();
+    start = (request.getParameter("start")).trim();
+    end = (request.getParameter("end")).trim();
     String timeFrame = (request.getParameter("timeFrame")).trim();
 
 	//establish the connection to the underlying database
@@ -64,15 +68,15 @@ if(request.getParameter("timeFrame") != null)
 		String prepare = null;
 		String first = null;
 
-		if (timeFrame.equals("week"))
+		if (timeFrame.equals("WEEK"))
 		{
 			prepare = " to_number(to_char(timing, 'ww')) as Week, count(*) as count from images where ";
 		}
-		else if (timeFrame.equals("month"))
+		else if (timeFrame.equals("MONTH"))
 		{
 			prepare = " to_number(to_char(timing, 'mm')) as Month, count(*) as count from images where ";
 		}		
-		else if (timeFrame.equals("year"))
+		else if (timeFrame.equals("YEAR"))
 		{
 			prepare = " to_number(to_char(timing, 'yy')) as Year, count(*) as count from images where ";
 		}
@@ -85,28 +89,42 @@ if(request.getParameter("timeFrame") != null)
 
 		//check what is empty and what is filled in
 
+		String timeGroup = "";
+		if (timeFrame.equals("WEEK"))
+		{
+			timeGroup = "to_number(to_char(timing, 'ww'))";
+		}
+		else if (timeFrame.equals("MONTH"))
+		{
+			timeGroup = "to_number(to_char(timing, 'mm'))";
+		}		
+		else if (timeFrame.equals("YEAR"))
+		{
+			timeGroup = "to_number(to_char(timing, 'yy'))";
+		}
+
 		if (user.equals("") && subject.equals("")) //neither specified
 		{
 			first = "select owner_name, subject, ";
 
-			append = "group by owner_name, subject, timing order by count asc";
+			append = "group by owner_name, subject, " + timeGroup + " order by count asc";
 		}
 		else if (user.equals("")) //subject specified
 		{
 			first = "select owner_name, '____', ";
 
-			append = " and subject = '"+subject+"' group by owner_name, timing order by count asc";
+			append = " and subject = '"+subject+"' group by owner_name, " + timeGroup + " order by count asc";
 		}
 		else if (subject.equals("")) //owner specified
 		{
 			first = "select '____', subject, ";
 
-			append = " and owner_name = '"+user+"' group by subject, timing order by count asc";
+			append = " and owner_name = '"+user+"' group by subject, " + timeGroup + " order by count asc";
 		}
 		else
 		{
 			first = "select '____', '____', ";
-			append = " and owner_name = '"+user+"' and subject = '"+subject+"' group by timing order by count asc";
+			append = " and owner_name = '"+user+"' and subject = '"+subject+"' group by " + timeGroup + " order by count asc";
 		}
 
 		out.println("Your query: <br>" + first + prepare + timeString + append + "<br><br>");
@@ -144,7 +162,7 @@ if(request.getParameter("timeFrame") != null)
 		out.println("<tr>");
 		out.println("<td>Owner</td>");
 		out.println("<td>Subject</td>");
-		out.println("<td>Timing</td>");
+		out.println("<td>" + timeFrame + "</td>");
 		out.println("<td>Count</td>");
 		out.println("</tr>");
 
@@ -188,22 +206,62 @@ else
 		
 %>
 
-<!--
-<FORM name = "Drill Down/Roll Up form" action = "Olap.jsp" method = "post" enctype="multipart/form-data">
+<script>
+//http://stackoverflow.com/questions/133925/javascript-post-request-like-a-form-submit
+function post(path, params) {
+    var method = "post";
+    var form = document.createElement("form");
+    form.setAttribute("method", method);
+    form.setAttribute("action", path);
+
+    for(var key in params)
+    {
+        if(params.hasOwnProperty(key))
+        {
+            var hiddenField = document.createElement("input");
+            hiddenField.setAttribute("type", "hidden");
+            hiddenField.setAttribute("name", key);
+            hiddenField.setAttribute("value", params[key]);
+
+            form.appendChild(hiddenField);
+         }
+    }
+
+    document.body.appendChild(form);
+    form.submit();
+}
+</script>
+
+<script>
+function Again()
+{
+    post("Olap.jsp", {
+    user: <%= "\"" + user + "\"" %>
+	, subject: <%= "\"" + subject + "\"" %>
+	, start: <%= "\"" + start + "\"" %>
+	, end: <%= "\"" + end + "\"" %>
+	, timeFrame: document.getElementById("olapForm").elements["timeFrame"].value
+	});
+}
+</script>
+
+
+<br><br>
+<h2>Drill Down/Roll Up</h2>
+<FORM id = "olapForm" name = "Drill Down/Roll Up form" action = "Olap.jsp" method = "post"">
 <table>
 <tr>
-<td align="right">Time frame: </td><td align="left"><input type="radio" name="timeFrame" value="week" checked="user">Weekly
-<input type="radio" name="timeFrame" value="month">Monthly
-<input type="radio" name="timeFrame" value="year">Yearly
+<td align="right">Time frame: </td><td align="left"><input type="radio" name="timeFrame" value="WEEK" checked="checked">Weekly
+<input type="radio" name="timeFrame" value="MONTH">Monthly
+<input type="radio" name="timeFrame" value="YEAR">Yearly
 </td>
 </tr>
 <tr>
-<td align="right"><INPUT type = "submit" name = "submitupload" value = "Submit"></td>
+<td align="right"><button type='button' onclick = 'Again()'>Submit</button></td>
 </tr>
 </table>
 </FORM>
-<br><a href="index.jsp">Back to Home</a>
+<br><br><a href="index.jsp">Back to Home</a>
 
 </BODY>
 </HTML>
--->
