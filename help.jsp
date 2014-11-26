@@ -10,7 +10,7 @@ if(userid == null)
 
 </HEAD>
 <BODY>
-
+<!--Introduction and summary-->
 Hi, <%= userid%><span style="float:right;"><a href="myinfo.jsp">My Info</a> <a href="logout.jsp">Logout</a> <a href="help.jsp">Help Page</a></span>
 <hr>
 <br>
@@ -120,9 +120,9 @@ To edit any of the fields that you had assigned your image when you uploaded it,
 <!--OLAP module info starts here-->
 <h2>5. Admin Only: &quot;Admin Module&quot;</h2><br/>
 
-<p>This module will only appear on the home page if the user is logged in to the &quot;admin&quot; account. It is used to generate an OLAP data cube to provide usage statistics of the system.</p>
+<p>This module will only appear on the home page if the user is logged in to the "admin" account. It performs an OLAP operation using the specified parameters and displays the results in a table. The parameters (owner name, subject, and timing) can be used in any combination and broken down by the three time hierarchies (weekly, monthly and yearly).</p>
 
-<p>This feature has yet to be fully implemented.</p>
+<p>To begin, fill out whatever combination of parameters you're interested in analyzing and click the "Submit" button. The resulting table will provide information based on your specifications. From here you can respecify the time period out of week, month and year, and press "Submit" to see your new table.</p>
 
 
 

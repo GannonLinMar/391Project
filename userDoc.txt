@@ -91,7 +91,7 @@ To edit any of the fields that you had assigned your image when you uploaded it,
 
 5. Admin Only: "Admin Module"
 
-This module will only appear on the home page if the user is logged in to the "admin" account. It is used to generate an OLAP data cube to provide usage statistics of the system.
+This module will only appear on the home page if the user is logged in to the "admin" account. It performs an OLAP operation using the specified parameters and displays the results in a table. The parameters (owner name, subject, and timing) can be used in any combination and broken down by the three time hierarchies (weekly, monthly and yearly).
 
-This feature has yet to be fully implemented.
+To begin, fill out whatever combination of parameters you're interested in analyzing and click the "Submit" button. The resulting table will provide information based on your specifications. From here you can respecify the time period out of week, month and year and press "Submit" to see your new table.
 
