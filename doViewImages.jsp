@@ -175,31 +175,54 @@ if(request.getParameter("submitViewImages") != null)
         	}
 	}
 
-        if(viewType == 2 && idList.size() > 5) //popularity search only
+        if(viewType == 2) //popularity search only
         {
             //truncate the list size to best 5, but also tiebreak which allows over 5 results
 
+		ResultSet rset2 = null;
+	    	try{	
+			
+        		rset2 = stmt2.executeQuery();
+    		}
+
+	        catch(Exception ex){
+           		out.println("<hr>" + ex.getMessage() + "<hr>");
+    		}		
+
+		while(rset2 != null && rset2.next()){
+			permitList.add(rset2.getInt(1));
+		}
+
 	    while(rset != null && rset.next())
        	    {
-        	idList.add((rset.getInt(1)));
-                popList.add(rset.getInt(3));
+		if (permitList.contains(rset.getInt(2))){
+        		idList.add((rset.getInt(1)));
+                	popList.add(rset.getInt(3));
+		}
             }
 
-            int worstIncludedPop = popList.get(4);
-            int worstIncludedIndex = idList.size() - 1;
+	    if (idList.size() > 5){
+		
+           	 int worstIncludedPop = popList.get(4);
+          	  int worstIncludedIndex = idList.size() - 1;
 
-            for(int q = 5; q < idList.size(); q++)
-            {
-                if(popList.get(q) < worstIncludedPop)
-                {
-                    worstIncludedIndex = q - 1;
-                }
-            }
+          	  for(int q = 5; q < idList.size(); q++)
+          	  {
+	    			
+               		 if(popList.get(q) < worstIncludedPop)
+               		 {
+
+                   		 worstIncludedIndex = worstIncludedIndex - 1;
+                	 }
+           	  }
 
             idList = new ArrayList<Integer>(idList.subList(0, worstIncludedIndex + 1));
+	    out.print(idList.size());
+
+	    }
         }
 
-	if(viewType == 3 || viewType == 2 || viewType == 4) {
+	if(viewType == 3 || viewType == 4) {
 		//create a second list that user is permitted to access
 		ResultSet rset2 = null;
 	    	try{	
@@ -222,12 +245,10 @@ if(request.getParameter("submitViewImages") != null)
 		while(rset != null && rset.next()){
 			if(permitList.contains(rset.getInt(2)))
 				idList.add(rset.getInt(1));
-			
-
-     		}
+		}
 
 	}
-
+	
 
         if(idList.size() < 1)
         {
