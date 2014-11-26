@@ -1,3 +1,6 @@
+# CMPUT 391 Project Report
+# Group 10: Eden Mar, Logan Lin, Sabrina Gannon
+
 ###[Homepage]
 
 index.jsp
