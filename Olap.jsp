@@ -59,7 +59,32 @@ if(request.getParameter("submitupload") != null)
 	if (conn != null){
 	
 		PreparedStatement stmt = null;
-		stmt = conn.prepareStatement("select owner_name, subject, timing, count(owner_name) as count from images where timing between TO_DATE('"+start+"', 'YYYY MM DD') and TO_DATE('"+end+"', 'YYYY MM DD') group by owner_name order by count asc");
+		String append = null;
+		String prepare = "select owner_name, count(owner_name) as count from images where timing between to_date('"+start+"', 'YYYY MM DD') and to_date('"+end+"', 'YYYY MM DD') ";
+
+		//check what is empty and what is filled in
+
+		if (user.equals("") && subject.equals("")){
+			append = "group by owner_name order by count asc";
+			out.println(append);
+		}
+	
+		else if (user.equals("")){
+			append = "and subject = '"+subject+"' group by owner_name order by count asc";
+			out.println(append);
+		}
+
+		else if (subject.equals("")){
+			append = "and owner_name = '"+user+"' group by owner_name order by count asc";
+			out.println(append);
+		}
+
+		else{
+			append = "and owner_name = '"+user+"' and subject = '"+subject+"' group by owner_name order by count asc";
+			out.println(append);
+		}
+		//out.println(prepare + append);
+		stmt = conn.prepareStatement(prepare+append);
 
 	ResultSet rset = null;
 
@@ -73,7 +98,8 @@ if(request.getParameter("submitupload") != null)
 		}	
 
 		while (rset != null && rset.next()) {
-			out.println(rset.next());
+			out.println(rset.getString(1));
+			out.println(rset.getInt(2));
 		}
 	}
 	conn.close();
