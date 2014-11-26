@@ -1,7 +1,7 @@
 <HTML>
 <HEAD>
 <TITLE>Home</TITLE>
-<!--Display user documentation, converted to html using: http://www.textfixer.com/html/convert-text-html.php-->
+<!--Display user documentation, converted to html using: http://www.textfixer.com/html/convert-text-html.php and a few small formatting changes done by hand-->
 <%
 String userid = (String)session.getAttribute("userid");
 if(userid == null)
@@ -94,10 +94,12 @@ The &quot;Manage Your Groups&quot; page displays the existing groups that you've
 
 <h3>3.1 Creating a group. </h3>
 The groups page presents a view of any existing groups you have as well as a button to add a new group by specifying a group name for. Group creation is as simple as the click of a button! <br />
-Click and name your new group. </p>
+Click and name your new group. The next page will be a success dialogue if the group was created successfully. To add members you'll have to go back to the previous page and click the "View/Edit" button which will be next to the name of your new group. </p>
 
 <h3>3.2 Editing an Existing Group</h3>
-For all existing groups that you own, you can edit them by adding or removing members.</p>
+For all existing groups that you own, you can edit them by adding or removing members. To access this, click the "View/Edit" button. You'll be brought to an overview of that group with a list of the members. To add a member click the button above the list of group members, type in their username and choose if you'd like to send them a notification that they've been added to your group. You can specify your own message in the dialogue box to let them know!
+</br>
+Deleting members is as simple as clicking the delete button next to the username you'd like to remove from the group. After both adding and deleting you'll recieve a message indicating that your edit was successful.</p>
 
 <!-- Viewing images starts here-->
 <h2>4. Viewing Images</h2></p>

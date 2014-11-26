@@ -10,7 +10,31 @@ Welcome to the user documentation page! You can use this as a guide on how to in
 0. Installation
 Installation of the system is simple, with only a few credentials that need changing to connect to a database of your choice! 
 Here's step by step instructions to install the site into your system:
-<Read me & Makefile instructions>
+
+0.1 Install
+- cd catalina/webapps
+- git clone https://github.com/GannonLinMar/391Project.git
+
+0.2 Setup tables
+- cd SqlSetup
+- sqlplus
+- @allsetup
+
+Note that removej.sql is a template for removing previously submitted jobs. Generally there's no need to run it.
+
+0.3 Setup Oracle credentials in the servlet
+- in WEB-INF/classes/GetOnePic.java, edit your credentials in at the end of the file
+- then recompile (javac GetOnePic.java)
+
+0.4 Setup Oracle credentials for the JSP's
+- in the folder "db_login", place a file named "db_login.jsp" It's contents should be:
+
+```
+<% 
+String db_username = "YOUR ORACLE USERNAME";
+String db_password = "YOUR ORACLE PASSWORD";
+String dbstring = "jdbc:oracle:thin:@gwynne.cs.ualberta.ca:1521:CRS";
+%>
 
 
 1. Starting and Ending your Sessions
@@ -43,11 +67,14 @@ Uploading a batch of photos at once is very similar to uploading one photo, alth
 Groups are a way to share certain photos with certain members of the site, as opposed to setting your photos to private (so that only you can see them) or public (so that everyone can see them). An important note about how groups work is that when you add a user to your group, you are able to share images with them but they cannot share images with you using the group. Instead, they must create their own group with you in it in order to share their photos with you.
 The "Manage Your Groups" page displays the existing groups that you've created, and has a "Create New Group" button to create a new group.
 
-3.1 Creating a group. The groups page presents a view of any existing groups you have as well as a button to add a new group by specifying a group name for. Group creation is as simple as the click of a button! 
-Click and name your new group. 
+3.1 Creating a group. 
+The groups page presents a view of any existing groups you have as well as a button to add a new group by specifying a group name for. Group creation is as simple as the click of a button! 
+Click and name your new group. The next page will be a success dialogue if the group was created successfully. To add members you'll have to go back to the previous page and click the "View/Edit" button which will be next to the name of your new group.
 
 3.2 Editing an Existing Group
-For all existing groups that you own, you can edit them by adding or removing members.
+For all existing groups that you own, you can edit them by adding or removing members. To access this, click the "View/Edit" button. You'll be brought to an overview of that group with a list of the members. To add a member click the button above the list of group members, type in their username and choose if you'd like to send them a notification that they've been added to your group. You can specify your own message in the dialogue box to let them know!
+
+Deleting members is as simple as clicking the delete button next to the username you'd like to remove from the group. After both adding and deleting you'll recieve a message indicating that your edit was successful.
 
 4. Viewing Images
 
