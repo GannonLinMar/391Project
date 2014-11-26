@@ -14,7 +14,7 @@ Hi, <%= userid%><span style="float:right;"><a href="myinfo.jsp">My Info</a> <a h
 <hr>
 <br>
 <p>Form for OLAP report generation.</p>
-<FORM name = "OLAPform" action = "Olap.jsp" method = "post" enctype="multipart/form-data">
+<FORM name = "OLAPform" action = "Olap.jsp" method = "post">
 <table>
 <tr>
 <td align="right">User: </td><td align="left"><INPUT type = "text" name = "user" maxlength=50></td>
@@ -29,7 +29,7 @@ Hi, <%= userid%><span style="float:right;"><a href="myinfo.jsp">My Info</a> <a h
 <td align="right">End Date: </td><td align="left"><INPUT type = "text" name = "end" maxlength=50 placeholder="YYYY MM DD"></td>
 </tr>
 <tr>
-<td align="right">Time frame: </td><td align="left"><input type="radio" name="timeFrame" value="week" checked="user">Weekly
+<td align="right">Time frame: </td><td align="left"><input type="radio" name="timeFrame" value = "time" value="week" checked="user">Weekly
 <input type="radio" name="timeFrame" value="month">Monthly
 <input type="radio" name="timeFrame" value="year">Yearly
 </td>
