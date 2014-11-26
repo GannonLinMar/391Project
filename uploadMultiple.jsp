@@ -213,8 +213,11 @@ public static BufferedImage shrink(BufferedImage image, int n) {
 				    	int groupid = rset3.getInt(1);
 				    	permitted = Integer.toString(groupid);
 					}
+					String dateValue = "', TO_DATE('" + when + "','YYYY MM DD'), '";
+					if(when.trim().equals(""))
+						dateValue = "', SYSDATE, '";					
 				    String values = Integer.toString(pic_id) + ", '" + userid + "', " + permitted + ", '"
-				    	+ subject + "', '" + place + "', TO_DATE('" + when + "','YYYY MM DD'), '" + desc + "', " + " empty_blob(), "
+				    	+ subject + "', '" + place + dateValue + desc + "', " + " empty_blob(), "
 				    	+ "empty_blob() ";
 				    String sqlInsert = "INSERT INTO images VALUES(" + values + ")";
 
