@@ -113,7 +113,7 @@ addGroupMember.jsp
 deleteGroupMember.jsp
 
 - Deletes the specified group member from the group's roster with this SQL query (again there is a nested select statement in the delete statement in order to obtain the group ID from the group name): "delete from group_lists where group_id in " + "(select group_id from groups where group_name = '" + groupName + "' and user_name = '" + userid + "')" + " and friend_id = '" + deletedMember + "'"
-- After informing the user of success or failure, the page allows the user to navigate back to the group management page (editGroup.jsp); the page resubmits the group name to the management page via POST using Javascrip
+- After informing the user of success or failure, the page allows the user to navigate back to the group management page (editGroup.jsp); this page resubmits the group name to the management page via POST using Javascript
 
 ###[Display And Search Module]
 
@@ -152,8 +152,10 @@ GetOnePic.java
 
 updateImage.jsp
 
-- 
-
-###[Data Analysis Module]
-
-adminModule.jsp ==> Olap.jsp
+- Updates the specified field (the "attribute" parameter) to the specified new value using the following SQL query: "UPDATE images SET " + setter + " WHERE photo_id = " + imageId
+ - where the setter variable is one of the following:
+ - for updating time: "timing = " + "TO_DATE('" + newValue + "','YYYY MM DD')"
+ - for updating permissions: "permitted = " + permitted
+ - for all other attributes: attribute + " = '" + newValue + "'"
+- if the permissions on the image are being changed to group-only, the page converts the specified group name to a group ID using the following SQL query: "SELECT group_id from groups where group_name = '" + groupName + "' and " + "user_name = '" + userid + "'"
+- After informing the user of success or failure, the page allows the user to navigate back to the View One Image page (viewOneImage.jsp); this page resubmits the image ID to the View One Image page via POST using Javascript
