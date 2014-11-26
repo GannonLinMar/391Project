@@ -160,7 +160,8 @@ if(request.getParameter("submitViewImages") != null)
     	}
         catch(Exception ex)
         {
-            out.println("<hr>" + ex.getMessage() + "<hr>");
+            if(!ex.getMessage().contains("text query parser syntax"))
+                out.println("<hr>" + ex.getMessage() + "<hr>");
     	}
 
        ArrayList<Integer> idList = new ArrayList<Integer>();
