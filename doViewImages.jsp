@@ -217,7 +217,7 @@ if(request.getParameter("submitViewImages") != null)
            	  }
 
             idList = new ArrayList<Integer>(idList.subList(0, worstIncludedIndex + 1));
-	    out.print(idList.size());
+
 
 	    }
         }
