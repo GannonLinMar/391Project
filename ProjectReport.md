@@ -172,3 +172,24 @@ updateImage.jsp
  - for all other attributes: attribute + " = '" + newValue + "'"
 - if the permissions on the image are being changed to group-only, the page converts the specified group name to a group ID using the following SQL query: "SELECT group_id from groups where group_name = '" + groupName + "' and " + "user_name = '" + userid + "'"
 - After informing the user of success or failure, the page allows the user to navigate back to the View One Image page (viewOneImage.jsp); this page resubmits the image ID to the View One Image page via POST using Javascript
+
+###[Data Analysis Module]
+
+adminModule.jsp ==> Olap.jsp
+
+- Can be accessed from the homepage (index.jsp), but only by the "admin" user
+- If a user other than admin attempts to access this page, they will be redirected to the homepage
+- Allows the administrator to perform OLAP operations on the "images" table of the database
+- The admin is able to analyze the table by image uploader, image subject, and image time. He may later drill down or roll up this analysis
+- the parameters for analysis are submitted to Olap.jsp via regular form submission
+- The page allows the user to navigate back to the homepage (index.jsp)
+
+Olap.jsp
+
+- Performs an OLAP operation using the specified parameters and displays the results in a table
+- An example query for analyzing by all three parameters (owner name, subject, and timing), broken down by week: select owner_name, subject, to_number(to_char(timing, 'ww')) as Week, count(*) as count from images group by owner_name, subject, to_number(to_char(timing, 'ww')) order by count asc
+- For analyzing by only subject and timing, broken down by month: select '____', subject, to_number(to_char(timing, 'mm')) as Month, count(*) as count from images where owner_name = 'username' group by subject, to_number(to_char(timing, 'mm')) order by count asc
+- And for analyzing by timing only, broken down by year: select '____', '____', to_number(to_char(timing, 'mm')) as Month, count(*) as count from images where owner_name = 'username' and subject = 'subject' group by to_number(to_char(timing, 'mm')) order by count asc
+- Allows the user to drill down or roll up along the time dimension by providing a form for the user to re-specify the time period out of week, month, and year
+- The page would then resubmit the newly selected time frame and all the same old parameters back to Olap.jsp via POST using Javascript
+- The page allows the user to navigate back to the homepage (index.jsp)
