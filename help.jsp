@@ -11,10 +11,10 @@ if(userid == null)
 </HEAD>
 <BODY>
 
-Hi, <%= userid%><span style="float:right;"><a href="logout.jsp">Logout</a></span>
+Hi, <%= userid%><span style="float:right;"><a href="myinfo.jsp">My Info</a> <a href="logout.jsp">Logout</a> <a href="help.jsp">Help Page</a></span>
 <hr>
 <br>
-
+<br><a href="index.jsp">Back to Home</a>
 <h1>Welcome to the Help Page!</h1>
 <br />
 <p>Welcome to the user documentation page! You can use this as a guide on how to install and use our photosharing system. This guide covers installation of the system and how to use the following modules:</p>
@@ -32,7 +32,7 @@ Installation of the system is simple, with only a few credentials that need chan
 Here's step by step instructions to install the site into your system:</p>
 
 <h3>0.1 Install</h3>
-- cd catalina/webapps<br />
+- cd catalina/webapps <i>(or the webapps folder of whichever server you are using)</i><br />
 - git clone https://github.com/GannonLinMar/391Project.git</p>
 
 <h3>0.2 Setup tables</h3>
@@ -43,16 +43,18 @@ Here's step by step instructions to install the site into your system:</p>
 <p><i>Note that removej.sql is a template for removing previously submitted jobs. Generally there's no need to run it.</i></p>
 
 <h3>0.3 Setup Oracle credentials in the servlet</h3>
-- in WEB-INF/classes/GetOnePic.java, edit your credentials in at the end of the file<br />
+- in WEB-INF/classes/GetOnePic.java, edit your credentials (username, password, and dbstring) in at the end of the file<br />
 - then recompile (javac GetOnePic.java)</p>
 
 <h3>0.4 Setup Oracle credentials for the JSP's</h3>
 <p>
-- in the folder "db_login", place a file named "db_login.jsp". It's contents should be:</p>
+- in the folder "db_login", place a file named "db_login.jsp". It's contents should look like the following, except enclosed in jsp tags:</p>
 
-<p>{String db_username = "YOUR ORACLE USERNAME";</p>
+<p>String db_username = "YOUR ORACLE USERNAME";</p>
 <p>String db_password = "YOUR ORACLE PASSWORD";</p>
-<p>String dbstring = "jdbc:oracle:thin:@gwynne.cs.ualberta.ca:1521:CRS";}</p>
+<p>String dbstring = "jdbc:oracle:thin:@gwynne.cs.ualberta.ca:1521:CRS"; <i>or the addresss of whichever oracle database you're connecting to</i></p>
+
+<p><b>Make sure to enclose these contents in jsp tags!</b></p>
 
 
 <!-- Signing up, login and logout info starts here-->
@@ -69,17 +71,16 @@ To end your session and log out, you simply must click the logout button. It's t
 
 <!--Information on the home page layout starts here-->
 <h2>
-The home page</h2></br>
+The Home Page & Navigation</h2></br>
 
-<p>Once you've logged in, you'll be directed to the home page which acts as a hub for connecting you to the features of our site. In the upper right hand corner you'll see options to view the information that you used to sign up, a logout button, and a link to access this very help page!</p>
+<p>Once you've logged in, you'll be directed to the home page which acts as a hub for connecting you to the features of our site. In the upper right hand corner you'll see options to view the information that you used to sign up, a logout button, and a link to access this very help page! This greeting header is available at the top of each page, with the "Back to Home" link at the top or bottom lefthand side of each page.</p>
 
-<p>Note that while every page has a Logout &amp; My Info link, the help page can only be accessed from the main menu. Each page does link back to the main menu either on the top or bottom lefthand side for easy navigation of the site. </p>
 
-<p>The main menu allows access to the following features:<br />
+<p><b>The main menu allows access to the following features:</b><br />
 </p>
 
 <!--Uploading images (One or Multiple) starts here-->
-<h2>2. Uploading One or More Photos</h2></p>
+<h2>2. Uploading One or More Photos</h2><br />
 
 <h3>2.1 Uploading One Image</h3>
 Uploading one photo is a very intuitive process. It's as simple as clicking the &quot;Upload One Image&quot; link to the upload page, selecting the photo file of your choice from your disk, and filling out the fields to add information to your upload. Note that if you don't set the privacy of your photos, they will default to being private. Once uploaded, you will be presented with a message describing if the upload was successful or not (OK indicates it was successful) and to view the uploaded images you'll have to return to the main menu and click on the &quot;view images&quot; option (section 4 describes the usage of this module.)</p>
@@ -92,7 +93,7 @@ Uploading a batch of photos at once is very similar to uploading one photo, alth
 Groups are a way to share certain photos with certain members of the site, as opposed to setting your photos to private (so that only you can see them) or public (so that everyone can see them). An important note about how groups work is that when you add a user to your group, you are able to share images with them but they cannot share images with you using the group. Instead, they must create their own group with you in it in order to share their photos with you.<br />
 The &quot;Manage Your Groups&quot; page displays the existing groups that you've created, and has a &quot;Create New Group&quot; button to create a new group.</p>
 
-<h3>3.1 Creating a group. </h3>
+<h3>3.1 Creating a Group. </h3>
 The groups page presents a view of any existing groups you have as well as a button to add a new group by specifying a group name for. Group creation is as simple as the click of a button! <br />
 Click and name your new group. The next page will be a success dialogue if the group was created successfully. To add members you'll have to go back to the previous page and click the "View/Edit" button which will be next to the name of your new group. </p>
 
@@ -102,19 +103,22 @@ For all existing groups that you own, you can edit them by adding or removing me
 Deleting members is as simple as clicking the delete button next to the username you'd like to remove from the group. After both adding and deleting you'll recieve a message indicating that your edit was successful.</p>
 
 <!-- Viewing images starts here-->
-<h2>4. Viewing Images</h2></p>
+<h2>4. Viewing & Editing Images</h2><br />
 
-<h3>4.1 Viewing your own images</h3>
+<h3>4.1 Viewing your own Images</h3>
 To see images you have uploaded, simply select the &quot;View My Images&quot; radio button from the list and click the &quot;Submit&quot; button. This will populate the screen with a gallery of thumbnails of images that you've uploaded. Here you can view the images and their information.</p>
 
 <h3>4.2 Viewing Popular Images</h3>
 This function works similarly to viewing your own images, except that you select the &quot;View Popular Images&quot; radio button and then click the &quot;Submit&quot; button. This populates the screen with a gallery of the top 5 most viewed images on the site.</p>
 
-<h3>4.3 Searching for images</h3>
+<h3>4.3 Searching for Images</h3>
 The third radio button option allows you to search through all of the images that you can view on the site either according to one or more keywords, and/or a date range. You can also choose how to sort the resulting thumbnails; they can be sorted according to &quot;Most Relevant&quot;, &quot;Newest&quot;, &quot;Oldest&quot; which you select using the radio button. </p>
 
+<h3>4.4 Editing Images</h3>
+To edit any of the fields that you had assigned your image when you uploaded it, from the view my images gallery simply click on the image you'd like to edit. Underneath the view of the image you'll find all of the fields with edit buttons next to them so that you can update them at any time.</p>
+
 <!--OLAP module info starts here-->
-<h2>5. Admin Only: &quot;Admin Module&quot;</h2></p>
+<h2>5. Admin Only: &quot;Admin Module&quot;</h2><br/>
 
 <p>This module will only appear on the home page if the user is logged in to the &quot;admin&quot; account. It is used to generate an OLAP data cube to provide usage statistics of the system.</p>
 
@@ -123,6 +127,6 @@ The third radio button option allows you to search through all of the images tha
 
 
 
-<br><a href="index.jsp">Back to Home</a>
+
 </BODY>
 </HTML>
