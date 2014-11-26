@@ -60,30 +60,46 @@ if(request.getParameter("submitupload") != null)
 	
 		PreparedStatement stmt = null;
 		String append = null;
-		String prepare = "select owner_name, count(owner_name) as count from images where timing between to_date('"+start+"', 'YYYY MM DD') and to_date('"+end+"', 'YYYY MM DD') ";
+		String prepare = null;
+
+		if (timeFrame.equals("week")){
+			prepare = "select owner_name, to_number(to_char(timing 'ww')) as Week, count(owner_name) as count from images where timing between to_date('"+start+"', 'YYYY MM DD') and to_date('"+end+"', 'YYYY MM DD') ";
+
+		}
+
+		else if (timeFrame.equals("month")){
+			prepare = "select owner_name, to_number(to_char(timing 'mm')) as Month, count(owner_name) as count from images where timing between to_date('"+start+"', 'YYYY MM DD') and to_date('"+end+"', 'YYYY MM DD') ";
+
+		}		
+
+		else if (timeFrame.equals("year")){
+			prepare = "select owner_name, to_number(to_char(timing 'yy')) as Year, count(owner_name) as count from images where timing between to_date('"+start+"', 'YYYY MM DD') and to_date('"+end+"', 'YYYY MM DD') ";
+
+		}
 
 		//check what is empty and what is filled in
 
 		if (user.equals("") && subject.equals("")){
 			append = "group by owner_name order by count asc";
-			out.println(append);
+
 		}
 	
 		else if (user.equals("")){
 			append = "and subject = '"+subject+"' group by owner_name order by count asc";
-			out.println(append);
+
 		}
 
 		else if (subject.equals("")){
 			append = "and owner_name = '"+user+"' group by owner_name order by count asc";
-			out.println(append);
+
 		}
 
 		else{
 			append = "and owner_name = '"+user+"' and subject = '"+subject+"' group by owner_name order by count asc";
-			out.println(append);
+
 		}
-		//out.println(prepare + append);
+		out.println(prepare + append);
+
 		stmt = conn.prepareStatement(prepare+append);
 
 	ResultSet rset = null;
