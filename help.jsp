@@ -44,7 +44,7 @@ Here's step by step instructions to install the site into your system:</p>
 
 <h3>0.3 Setup Oracle credentials in the servlet</h3>
 - in WEB-INF/classes/GetOnePic.java, edit your credentials (username, password, and dbstring) in at the end of the file<br />
-- then recompile (javac GetOnePic.java)</p>
+- then use the supplied makefile using the command "make target" to recompile the java class with the correct credentials</p>
 
 <h3>0.4 Setup Oracle credentials for the JSP's</h3>
 <p>

@@ -24,7 +24,7 @@ Note that removej.sql is a template for removing previously submitted jobs. Gene
 
 0.3 Setup Oracle credentials in the servlet
 - in WEB-INF/classes/GetOnePic.java, edit your credentials (username, password, and dbstring) in at the end of the file
-- then recompile (javac GetOnePic.java)
+- then use the supplied makefile using the command "make target" to recompile the java class with the correct credentials
 
 0.4 Setup Oracle credentials for the JSP's
 - in the folder "db_login", place a file named "db_login.jsp" It's contents should be:
