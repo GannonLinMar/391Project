@@ -1,0 +1,68 @@
+Welcome to the user documentation page! You can use this as a guide on how to install and use our photosharing system. This guide covers installation of the system and how to use the following modules:
+
+-Signing up and logging in/out
+-Upload one photo
+-Upload multiple photos at one time
+-Creating and editing groups
+-Viewing your images
+-Searching for images
+
+0. Installation
+Installation of the system is simple, with only a few credentials that need changing to connect to a database of your choice! 
+Here's step by step instructions to install the site into your system:
+<Read me & Makefile instructions>
+
+
+1. Starting and Ending your Sessions
+1.1 Sign up: You can access the sign up page either directly or from the log in page in the event that you don't have an account. Signing up is as simple as filling in all of the fields on the sign up page and clicking a button! 
+Once you've signed in, you'll be greeted with a message indicating that you've been successfully signed in, and then you'll be redirected to the home page.
+
+1.2 Login
+For future sessions all you'll need is to fill out your username and password at the log in page. Just as with signing in, you'll be greeted with a message indicating if your login was successful and then redirected to the home page.
+
+1.3 Logout
+To end your session and log out, you simply must click the logout button. It's that easy to keep your photos secure with out system!
+
+The home page
+
+Once you've logged in, you'll be directed to the home page which acts as a hub for connecting you to the features of our site. In the upper right hand corner you'll see options to view the information that you used to sign up, a logout button, and a link to access this very help page!
+
+Note that while every page has a Logout & My Info link, the help page can only be accessed from the main menu. Each page does link back to the main menu either on the top or bottom lefthand side for easy navigation of the site. 
+
+The main menu allows access to the following features:
+
+2. Uploading One or More Photos
+
+2.1 Uploading One Image
+Uploading one photo is a very intuitive process. It's as simple as clicking the "Upload One Image" link to the upload page, selecting the photo file of your choice from your disk, and filling out the fields to add information to your upload. Note that if you don't set the privacy of your photos, they will default to being private. Once uploaded, you will be presented with a message describing if the upload was successful or not (OK indicates it was successful) and to view the uploaded images you'll have to return to the main menu and click on the "view images" option (section 4 describes the usage of this module.)
+
+2.2 Uploading Multiple Photos at Once
+Uploading a batch of photos at once is very similar to uploading one photo, although you must select a different option on the main menu. Click the "Upload A Folder Of Images" link to upload multiple files. To select more than one photo file from your disk, you simply need to click on the images you want to upload while holding the shift or control key. Then fill out the fields and click on the upload button.
+
+3. Manage Your Groups
+Groups are a way to share certain photos with certain members of the site, as opposed to setting your photos to private (so that only you can see them) or public (so that everyone can see them). An important note about how groups work is that when you add a user to your group, you are able to share images with them but they cannot share images with you using the group. Instead, they must create their own group with you in it in order to share their photos with you.
+The "Manage Your Groups" page displays the existing groups that you've created, and has a "Create New Group" button to create a new group.
+
+3.1 Creating a group. The groups page presents a view of any existing groups you have as well as a button to add a new group by specifying a group name for. Group creation is as simple as the click of a button! 
+Click and name your new group. 
+
+3.2 Editing an Existing Group
+For all existing groups that you own, you can edit them by adding or removing members.
+
+4. Viewing Images
+
+4.1 Viewing your own images
+To see images you have uploaded, simply select the "View My Images" radio button from the list and click the "Submit" button. This will populate the screen with a gallery of thumbnails of images that you've uploaded. Here you can view the images and their information.
+
+4.2 Viewing Popular Images
+This function works similarly to viewing your own images, except that you select the "View Popular Images" radio button and then click the "Submit" button. This populates the screen with a gallery of the top 5 most viewed images on the site.
+
+4.3 Searching for images
+The third radio button option allows you to search through all of the images that you can view on the site either according to one or more keywords, and/or a date range. You can also choose how to sort the resulting thumbnails; they can be sorted according to "Most Relevant", "Newest", "Oldest" which you select using the radio button. 
+
+5. Admin Only: "Admin Module"
+
+This module will only appear on the home page if the user is logged in to the "admin" account. It is used to generate an OLAP data cube to provide usage statistics of the system.
+
+This feature has yet to be fully implemented.
+
