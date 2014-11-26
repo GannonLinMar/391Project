@@ -33,7 +33,9 @@ if(request.getParameter("submitViewImages") != null)
     	viewType = 2;
     else if(viewTypeString.equals("search"))
     	viewType = 3;
-
+    else if(viewTypeString.equals("date"))
+	viewType = 4;
+    
     //establish the connection to the underlying database
 	Connection conn = null;
 
@@ -114,9 +116,15 @@ if(request.getParameter("submitViewImages") != null)
 		
 			stmt2 = conn.prepareStatement("select group_id from group_lists where friend_id = '"+userid+"'");
 
-		}
-		
+		}		
 		break;
+	    //Search by date
+	    case 4:
+			String lower = request.getParameter("lower_date");
+			String upper = request.getParameter("upper_date");
+			stmt = conn.prepareStatement("select photo_id, permitted, timing from images where timing between TO_DATE('"+lower+"','YYYY MM DD') and TO_DATE('"+upper+"','YYYY MM DD') order by timing asc");
+
+			stmt2 = conn.prepareStatement("select group_id from group_lists where friend_id = '"+userid+"'");
 
     		default:
     			out.println("Something is terribly wrong");
@@ -177,7 +185,7 @@ if(request.getParameter("submitViewImages") != null)
             idList = new ArrayList<Integer>(idList.subList(0, worstIncludedIndex + 1));
         }
 
-	if(viewType == 3 || viewType == 2) {
+	if(viewType == 3 || viewType == 2 || viewType == 4) {
 		//create a second list that user is permitted to access
 		ResultSet rset2 = null;
 	    	try{	

@@ -3,9 +3,9 @@
 <TITLE>Login Result</TITLE>
 </HEAD>
 <BODY>
-<!--A simple example to demonstrate how to use JSP to 
-    connect and query a database. 
+<!--This code references the supplied code by 
     @author  Hong-Yu Zhang, University of Alberta
+    to connect a simple query to a database, as given through the eclass link.
  -->
 <%@ page import="java.sql.*" %>
 
