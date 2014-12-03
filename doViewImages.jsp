@@ -250,6 +250,10 @@ if(request.getParameter("submitViewImages") != null)
 		while(rset2 != null && rset2.next()){
 			permitList.add(rset2.getInt(1));
 		}
+
+        permitList.add(1);
+        if(userid.equals("admin"))
+            permitList.add(2);
 		
 		//out.println(permitList.get(1));
 		//permitList.add(1);
