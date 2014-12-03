@@ -81,7 +81,7 @@ if(request.getParameter("submitViewImages") != null)
                 //tie-breaking in SQL would be hard
                 //so just fetch everything, that way we can get the top 5 and tiebreak in JSP
 		if (userid.equals("admin"))
-			stmt2 = conn.prepareStatement("select group_id from group_lists");
+			stmt2 = conn.prepareStatement("select group_id from groups");
 		else
 			stmt2 = conn.prepareStatement("select group_id from group_lists where friend_id = '"+userid+"'");
                 break;
@@ -195,12 +195,23 @@ if(request.getParameter("submitViewImages") != null)
 		}
 
 	    while(rset != null && rset.next())
-       	    {
-		if (permitList.contains(rset.getInt(2))){
-        		idList.add((rset.getInt(1)));
-                	popList.add(rset.getInt(3));
-		}
-            }
+       	{
+    		if (permitList.contains(rset.getInt(2)))
+            {
+            		idList.add((rset.getInt(1)));
+                    	popList.add(rset.getInt(3));
+		    }
+            else if(rset.getInt(2) == 1)
+            {
+                                idList.add((rset.getInt(1)));
+                        popList.add(rset.getInt(3));
+             }
+             else if((rset.getInt(2) == 2) && userid.equals("admin"))
+            {
+                                idList.add((rset.getInt(1)));
+                        popList.add(rset.getInt(3));
+             }  
+        }
 
 	    if (idList.size() > 5){
 		
